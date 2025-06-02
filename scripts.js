@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     populateBrands(supabaseClient);
 });
 
+
 async function populateBrands(supabaseClient) {
     if (!supabaseClient) {
         console.error("🚨 SupabaseClient no está definido.");
