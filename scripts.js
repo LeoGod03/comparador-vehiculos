@@ -20,67 +20,52 @@ const gasolinaFactorEmision = 2.265; // kgCO2/litro
 const electricidadFactorEmision = 0.12; // kgCO2/kWh (promedio en México)
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("⚡ DOM cargado, ejecutando prueba de consulta...");
+    console.log("⚡ DOM cargado, ejecutando prueba de consulta y carga de marcas...");
 
-    async function testQuery() {
-        if (!supabaseClient) {
-            console.error("🚨 SupabaseClient no está disponible.");
-            return;
-        }
 
-        let { data, error } = await supabaseClient
+    async function populateBrands() {
+        let { data, error } = await supabase
             .from('vehiculos')
             .select('marca');
 
         if (error) {
-            console.error("🚨 Error al obtener datos de vehiculos:", error);
-        } else {
-            console.log("✅ Datos obtenidos de vehiculos:", data);
+            console.error("🚨 Error al obtener marcas:", error);
+            return;
         }
+
+        console.log("🔍 Datos obtenidos:", data); // Confirmar datos en la consola
+
+        const vciBrandSelect = document.getElementById("vci-brand");
+        const veBrandSelect = document.getElementById("ve-brand");
+
+        if (!vciBrandSelect || !veBrandSelect) {
+            console.error("🚨 No se encontraron los selectores 'vci-brand' o 've-brand'");
+            return;
+        }
+
+        vciBrandSelect.innerHTML = '<option value="">Seleccione Marca</option>';
+        veBrandSelect.innerHTML = '<option value="">Seleccione Marca</option>';
+
+        data.forEach(vehicle => {
+            let optionVCI = document.createElement("option");
+            optionVCI.value = vehicle.marca;
+            optionVCI.textContent = vehicle.marca;
+
+            let optionVE = document.createElement("option");
+            optionVE.value = vehicle.marca;
+            optionVE.textContent = vehicle.marca;
+
+            vciBrandSelect.appendChild(optionVCI);
+            veBrandSelect.appendChild(optionVE);
+        });
+
+        console.log("✅ Marcas agregadas a los selectores.");
     }
 
-    testQuery();
+    populateBrands();
 });
 
 
-async function populateBrands() {
-    let { data, error } = await supabase
-        .from('vehiculos')  // Debe tomar datos de la tabla `vehiculos`
-        .select('marca');
-
-    if (error) {
-        console.error("🚨 Error al obtener marcas:", error);
-        return;
-    }
-
-    console.log("🔍 Datos obtenidos:", data); // Confirmar datos en la consola
-
-    const vciBrandSelect = document.getElementById("vci-brand");
-    const veBrandSelect = document.getElementById("ve-brand");
-
-    if (!vciBrandSelect || !veBrandSelect) {
-        console.error("🚨 No se encontraron los selectores 'vci-brand' o 've-brand'");
-        return;
-    }
-
-    vciBrandSelect.innerHTML = '<option value="">Seleccione Marca</option>';
-    veBrandSelect.innerHTML = '<option value="">Seleccione Marca</option>';
-
-    data.forEach(vehicle => {
-        let optionVCI = document.createElement("option");
-        optionVCI.value = vehicle.marca;
-        optionVCI.textContent = vehicle.marca;
-
-        let optionVE = document.createElement("option");
-        optionVE.value = vehicle.marca;
-        optionVE.textContent = vehicle.marca;
-
-        vciBrandSelect.appendChild(optionVCI);
-        veBrandSelect.appendChild(optionVE);
-    });
-
-    console.log("✅ Marcas agregadas a los selectores.");
-}
 
 // Ejecutar después de que el DOM esté listo
 document.addEventListener("DOMContentLoaded", populateBrands);
