@@ -20,17 +20,26 @@ const gasolinaFactorEmision = 2.265; // kgCO2/litro
 const electricidadFactorEmision = 0.12; // kgCO2/kWh (promedio en México)
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("⚡ DOM cargado, inicializando Supabase y poblado de marcas...");
-    
-    const supabaseClient = window.supabase.createClient(
-        'https://ivvregyexgtkkqahveum.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dnJlZ3lleGd0a2txYWh2ZXVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4NDE5ODYsImV4cCI6MjA2NDQxNzk4Nn0.twDkCOdE4rUErbH4bAY1GMQEzpz4dnZqLfT-iz8Zj4U'
-    );
+    console.log("⚡ DOM cargado, ejecutando prueba de consulta...");
 
-    console.log("Supabase inicializado correctamente:", supabaseClient);
+    async function testQuery() {
+        if (!supabaseClient) {
+            console.error("🚨 SupabaseClient no está disponible.");
+            return;
+        }
 
-    // Ahora ejecutamos la función para poblar el selector
-    populateBrands(supabaseClient);
+        let { data, error } = await supabaseClient
+            .from('vehiculos')
+            .select('marca');
+
+        if (error) {
+            console.error("🚨 Error al obtener datos de vehiculos:", error);
+        } else {
+            console.log("✅ Datos obtenidos de vehiculos:", data);
+        }
+    }
+
+    testQuery();
 });
 
 
