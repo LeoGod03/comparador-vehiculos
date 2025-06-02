@@ -1,7 +1,6 @@
 
 // Extraer la función `createClient` correctamente
 const { createClient } = window.supabase;
-
 // Inicializar Supabase
 const supabase = createClient(
     'https://ivvregyexgtkkqahveum.supabase.co',
