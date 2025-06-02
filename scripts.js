@@ -43,22 +43,18 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-async function populateBrands(supabaseClient) {
-    if (!supabaseClient) {
-        console.error("🚨 SupabaseClient no está definido.");
-        return;
-    }
-
-    let { data, error } = await supabaseClient
-        .from('vehiculos')
-        .select('marca')
-        .order('marca', { ascending: true });
+async function populateBrands() {
+    let { data, error } = await supabase
+        .from('vehiculos')  // Debe tomar datos de la tabla `vehiculos`
+        .select('marca');
 
     if (error) {
         console.error("🚨 Error al obtener marcas:", error);
         return;
     }
-    // Buscar los selectores correctos en el HTML
+
+    console.log("🔍 Datos obtenidos:", data); // Confirmar datos en la consola
+
     const vciBrandSelect = document.getElementById("vci-brand");
     const veBrandSelect = document.getElementById("ve-brand");
 
@@ -67,20 +63,27 @@ async function populateBrands(supabaseClient) {
         return;
     }
 
-    vciBrandSelect.innerHTML = ""; // Limpiar antes de agregar opciones
-    veBrandSelect.innerHTML = "";  
+    vciBrandSelect.innerHTML = '<option value="">Seleccione Marca</option>';
+    veBrandSelect.innerHTML = '<option value="">Seleccione Marca</option>';
 
     data.forEach(vehicle => {
-        let option = document.createElement("option");
-        option.value = vehicle.marca;
-        option.textContent = vehicle.marca;
+        let optionVCI = document.createElement("option");
+        optionVCI.value = vehicle.marca;
+        optionVCI.textContent = vehicle.marca;
 
-        vciBrandSelect.appendChild(option.cloneNode(true)); // Agregar opción al selector de VCI
-        veBrandSelect.appendChild(option);  // Agregar opción al selector de VE
+        let optionVE = document.createElement("option");
+        optionVE.value = vehicle.marca;
+        optionVE.textContent = vehicle.marca;
+
+        vciBrandSelect.appendChild(optionVCI);
+        veBrandSelect.appendChild(optionVE);
     });
 
-    console.log("✅ Marcas cargadas en los selectores.");
+    console.log("✅ Marcas agregadas a los selectores.");
 }
+
+// Ejecutar después de que el DOM esté listo
+document.addEventListener("DOMContentLoaded", populateBrands);
 
         async function updateVciModels() {
             const brandSelect = document.getElementById('vci-brand');
