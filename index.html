@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparador de Vehículos: VCI vs VE</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+    const supabase = supabase.createClient(
+        'https://ivvregyexgtkkqahveum.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dnJlZ3lleGd0a2txYWh2ZXVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4NDE5ODYsImV4cCI6MjA2NDQxNzk4Nn0.twDkCOdE4rUErbH4bAY1GMQEzpz4dnZqLfT-iz8Zj4U'
+    );
+    </script>
+
+</head>
+<body>
+ <h1>Universidad Autónoma de la Ciudad de México<h1/>
+<h1>Academia de Ingeniería en Sistemas de Transporte Urbano<h1/> 
+
+ <h1>Comparador de Vehículos: Combustión Interna vs. Eléctricos</h1>
+    
+    <div class="comparator-container">
+        <div class="vehicle-selector">
+            <h2>Vehículo de Combustión Interna (VCI)</h2>
+            <select id="vci-brand" onchange="updateVciSubbrands()">
+                <option value="">Seleccione Marca</option>
+            </select>
+            <select id="vci-subbrand" onchange="updateVciModels()">
+                <option value="">Seleccione Submarca</option>
+            </select>
+            <select id="vci-model" onchange="showVciDetails()">
+                <option value="">Seleccione Modelo</option>
+            </select>
+        </div>
+        
+        <div class="vehicle-selector">
+            <h2>Vehículo Eléctrico (VE)</h2>
+            <select id="ve-brand" onchange="updateVeSubbrands()">
+                <option value="">Seleccione Marca</option>
+            </select>
+            <select id="ve-subbrand" onchange="updateVeModels()">
+                <option value="">Seleccione Submarca</option>
+            </select>
+            <select id="ve-model" onchange="showVeDetails()">
+                <option value="">Seleccione Modelo</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="vehicle-info">
+        <div class="vehicle-details" id="vci-details">
+            <h2>Detalles del VCI</h2>
+            <p>Seleccione un vehículo para ver sus detalles.</p>
+        </div>
+        
+        <div class="vehicle-details" id="ve-details">
+            <h2>Detalles del VE</h2>
+            <p>Seleccione un vehículo para ver sus detalles.</p>
+        </div>
+    </div>
+    
+    <div class="comparison-table" id="comparison-table" style="display: none;">
+        <h2>Comparación de Consumo, Costo y Emisiones</h2>
+        <table>
+            <tr>
+                <th>Parámetro</th>
+                <th id="vci-comp-name">VCI</th>
+                <th id="ve-comp-name">VE</th>
+            </tr>
+            <tr>
+                <td>Consumo de energía por km</td>
+                <td id="vci-energy-consumption"></td>
+                <td id="ve-energy-consumption"></td>
+            </tr>
+            <tr>
+                <td>Costo por km</td>
+                <td id="vci-cost-per-km"></td>
+                <td id="ve-cost-per-km"></td>
+            </tr>
+            <tr>
+                <td>Emisiones de CO2 por km</td>
+                <td id="vci-emissions"></td>
+                <td id="ve-emissions"></td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="mileage-input">
+        <h2>Calcular Totales</h2>
+        <label for="total-mileage">Ingrese el kilometraje total (km):</label>
+        <input type="number" id="total-mileage" min="0" step="1">
+        <button onclick="calculateTotals()">Calcular Totales</button>
+    </div>
+    
+    <div class="total-results" id="total-results">
+        <h2>Resultados Totales</h2>
+        <table>
+            <tr>
+                <th>Parámetro</th>
+                <th id="vci-total-name">VCI</th>
+                <th id="ve-total-name">VE</th>
+            </tr>
+            <tr>
+                <td>Consumo total de energía</td>
+                <td id="vci-total-energy"></td>
+                <td id="ve-total-energy"></td>
+            </tr>
+            <tr>
+                <td>Costo total</td>
+                <td id="vci-total-cost"></td>
+                <td id="ve-total-cost"></td>
+            </tr>
+            <tr>
+                <td>Emisiones totales de CO2</td>
+                <td id="vci-total-emissions"></td>
+                <td id="ve-total-emissions"></td>
+            </tr>
+        </table>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
