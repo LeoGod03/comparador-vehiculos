@@ -49,7 +49,6 @@ async function populateBrands(supabaseClient) {
         console.error("🚨 Error al obtener marcas:", error);
         return;
     }
-
     // Buscar los selectores correctos en el HTML
     const vciBrandSelect = document.getElementById("vci-brand");
     const veBrandSelect = document.getElementById("ve-brand");
