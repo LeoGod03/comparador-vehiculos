@@ -52,7 +52,7 @@ async function populateBrands(supabaseClient) {
 
     const brandSelect = document.getElementById("brand-select");
     if (!brandSelect) {
-        console.error("No se encontró el selector con ID 'brand-select'");
+        console.error("No se encontró el selector con ID 'brand-select");
         return;
     }
 
