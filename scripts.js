@@ -19,13 +19,26 @@ const gasolinaDensidad = 0.723; // kg/litro
 const gasolinaFactorEmision = 2.265; // kgCO2/litro
 const electricidadFactorEmision = 0.12; // kgCO2/kWh (promedio en México)
 
-// Inicializar los selectores
-document.addEventListener('DOMContentLoaded', () => {
-    populateBrands('vci-brand', 'VCI'); // Cargar marcas de vehículos de combustión interna
-    populateBrands('ve-brand', 'VE');   // Cargar marcas de vehículos eléctricos
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("⚡ DOM cargado, inicializando Supabase y poblado de marcas...");
+    
+    const supabaseClient = window.supabase.createClient(
+        'https://ivvregyexgtkkqahveum.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dnJlZ3lleGd0a2txYWh2ZXVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4NDE5ODYsImV4cCI6MjA2NDQxNzk4Nn0.twDkCOdE4rUErbH4bAY1GMQEzpz4dnZqLfT-iz8Zj4U'
+    );
+
+    console.log("✅ Supabase inicializado correctamente:", supabaseClient);
+
+    // Ahora ejecutamos la función para poblar el selector
+    populateBrands(supabaseClient);
 });
 
-async function populateBrands() {
+async function populateBrands(supabaseClient) {
+    if (!supabaseClient) {
+        console.error("🚨 SupabaseClient no está definido.");
+        return;
+    }
+
     let { data, error } = await supabaseClient
         .from('vehiculos')
         .select('marca')
@@ -37,7 +50,12 @@ async function populateBrands() {
     }
 
     const brandSelect = document.getElementById("brand-select");
-    brandSelect.innerHTML = ""; // Limpiar antes de agregar
+    if (!brandSelect) {
+        console.error("🚨 No se encontró el selector con ID 'brand-select'");
+        return;
+    }
+
+    brandSelect.innerHTML = ""; // Limpiar antes de agregar opciones
 
     data.forEach(vehicle => {
         let option = document.createElement("option");
@@ -46,11 +64,8 @@ async function populateBrands() {
         brandSelect.appendChild(option);
     });
 
-    console.log("✅ Marcas cargadas correctamente.");
+    console.log("✅ Marcas cargadas en el selector.");
 }
-
-// Llamar la función cuando el DOM esté listo
-document.addEventListener("DOMContentLoaded", populateBrands);
 
         async function updateVciModels() {
             const brandSelect = document.getElementById('vci-brand');
