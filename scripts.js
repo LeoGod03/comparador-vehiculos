@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Ahora ejecutamos la función para poblar el selector
     populateBrands(supabaseClient);
 });
+
 async function populateBrands(supabaseClient) {
     if (!supabaseClient) {
         console.error("🚨 SupabaseClient no está definido.");
