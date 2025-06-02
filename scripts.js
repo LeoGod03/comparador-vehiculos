@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dnJlZ3lleGd0a2txYWh2ZXVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4NDE5ODYsImV4cCI6MjA2NDQxNzk4Nn0.twDkCOdE4rUErbH4bAY1GMQEzpz4dnZqLfT-iz8Zj4U'
     );
 
-    console.log("✅ Supabase inicializado correctamente:", supabaseClient);
+    console.log("Supabase inicializado correctamente:", supabaseClient);
 
     // Ahora ejecutamos la función para poblar el selector
     populateBrands(supabaseClient);
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function populateBrands(supabaseClient) {
     if (!supabaseClient) {
-        console.error("🚨 SupabaseClient no está definido.");
+        console.error(" SupabaseClient no está definido.");
         return;
     }
 
@@ -52,7 +52,7 @@ async function populateBrands(supabaseClient) {
 
     const brandSelect = document.getElementById("brand-select");
     if (!brandSelect) {
-        console.error("🚨 No se encontró el selector con ID 'brand-select'");
+        console.error("No se encontró el selector con ID 'brand-select'");
         return;
     }
 
