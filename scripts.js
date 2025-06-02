@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function populateBrands(supabaseClient) {
     if (!supabaseClient) {
-        console.error(" SupabaseClient no está definido.");
+        console.error("🚨 SupabaseClient no está definido.");
         return;
     }
 
@@ -50,22 +50,28 @@ async function populateBrands(supabaseClient) {
         return;
     }
 
-    const brandSelect = document.getElementById("brand-select");
-    if (!brandSelect) {
-        console.error("No se encontró el selector con ID 'brand-select");
+    // Buscar los selectores correctos en el HTML
+    const vciBrandSelect = document.getElementById("vci-brand");
+    const veBrandSelect = document.getElementById("ve-brand");
+
+    if (!vciBrandSelect || !veBrandSelect) {
+        console.error("🚨 No se encontraron los selectores 'vci-brand' o 've-brand'");
         return;
     }
 
-    brandSelect.innerHTML = ""; // Limpiar antes de agregar opciones
+    vciBrandSelect.innerHTML = ""; // Limpiar antes de agregar opciones
+    veBrandSelect.innerHTML = "";  
 
     data.forEach(vehicle => {
         let option = document.createElement("option");
         option.value = vehicle.marca;
         option.textContent = vehicle.marca;
-        brandSelect.appendChild(option);
+
+        vciBrandSelect.appendChild(option.cloneNode(true)); // Agregar opción al selector de VCI
+        veBrandSelect.appendChild(option);  // Agregar opción al selector de VE
     });
 
-    console.log("✅ Marcas cargadas en el selector.");
+    console.log("✅ Marcas cargadas en los selectores.");
 }
 
         async function updateVciModels() {
