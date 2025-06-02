@@ -66,10 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
-// Ejecutar después de que el DOM esté listo
-document.addEventListener("DOMContentLoaded", populateBrands);
-
         async function updateVciModels() {
             const brandSelect = document.getElementById('vci-brand');
             const subbrandSelect = document.getElementById('vci-subbrand');
