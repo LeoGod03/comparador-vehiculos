@@ -25,62 +25,32 @@ document.addEventListener('DOMContentLoaded', () => {
     populateBrands('ve-brand', 'VE');   // Cargar marcas de vehículos eléctricos
 });
 
-async function populateBrands(selectId, tipo) {
-    const select = document.getElementById(selectId);
-    select.innerHTML = '<option value="">Seleccione Marca</option>'; // Limpia el selector antes de llenarlo
-
-    let { data: vehiculos, error } = await supabase.from('vehiculos')
-                                                    .select('marca')
-                                                    .eq('tipo', tipo);
+async function populateBrands() {
+    let { data, error } = await supabaseClient
+        .from('vehiculos')
+        .select('marca')
+        .order('marca', { ascending: true });
 
     if (error) {
-        console.error('Error al obtener marcas:', error);
+        console.error("🚨 Error al obtener marcas:", error);
         return;
     }
 
-            const brands = [...new Set(vehiculos.map(item => item.marca))];
+    const brandSelect = document.getElementById("brand-select");
+    brandSelect.innerHTML = ""; // Limpiar antes de agregar
 
-            brands.forEach(brand => {
-                const option = document.createElement('option');
-                option.value = brand;
-                option.textContent = brand;
-                select.appendChild(option);
-            });
-        }
+    data.forEach(vehicle => {
+        let option = document.createElement("option");
+        option.value = vehicle.marca;
+        option.textContent = vehicle.marca;
+        brandSelect.appendChild(option);
+    });
 
+    console.log("✅ Marcas cargadas correctamente.");
+}
 
-        async function updateVciSubbrands() {
-            const brandSelect = document.getElementById('vci-brand');
-            const subbrandSelect = document.getElementById('vci-subbrand');
-            const modelSelect = document.getElementById('vci-model');
-
-            // Limpiar selects
-            subbrandSelect.innerHTML = '<option value="">Seleccione Submarca</option>';
-            modelSelect.innerHTML = '<option value="">Seleccione Modelo</option>';
-
-            if (!brandSelect.value) return;
-
-            // Obtener submarcas desde Supabase
-            let { data: submarcas, error } = await supabase
-                .from('vehiculos')
-                .select('submarca')
-                .eq('marca', brandSelect.value)
-                .eq('tipo', 'VCI');
-
-            if (error) {
-                console.error('Error al obtener submarcas:', error);
-                return;
-            }
-
-            // Filtrar y llenar el selector
-            const uniqueSubbrands = [...new Set(submarcas.map(item => item.submarca))];
-            uniqueSubbrands.forEach(submarca => {
-                const option = document.createElement('option');
-                option.value = submarca;
-                option.textContent = submarca;
-                subbrandSelect.appendChild(option);
-            });
-        }
+// Llamar la función cuando el DOM esté listo
+document.addEventListener("DOMContentLoaded", populateBrands);
 
         async function updateVciModels() {
             const brandSelect = document.getElementById('vci-brand');
