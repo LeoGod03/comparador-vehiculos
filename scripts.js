@@ -344,15 +344,14 @@ async function getVciVehicles() {
         .select('vehiculos.marca, vehiculos.submarca, vehiculos.modelo, vehiculos.version, vehiculos_vci.calificacion, vehiculos_vci.*')
         .eq('vehiculos.marca', document.getElementById('vci-brand').value)
         .eq('vehiculos.submarca', document.getElementById('vci-subbrand').value)
-        .eq('vehiculos.modelo', document.getElementById('vci-model').value)
-        .order('vehiculos_vci.calificacion', { ascending: false });
+        .eq('vehiculos.modelo', document.getElementById('vci-model').value);
 
     if (error) {
         console.error("🚨 Error al obtener vehículos VCI:", error);
         return [];
     }
 
-    console.log("🔍 Vehículos VCI ordenados por calificación:", vehiculos);
+    console.log("🔍 Vehículos VCI obtenidos:", vehiculos);
     return vehiculos;
 }
 
