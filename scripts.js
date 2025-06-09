@@ -341,7 +341,16 @@ async function showVeDetails() {
 async function getVciVehicles() {
     let { data: vehiculos, error } = await supabase
         .from('vehiculos_vci')
-        .select('vehiculos.marca, vehiculos.submarca, vehiculos.modelo, vehiculos.version, vehiculos_vci.calificacion, vehiculos_vci.*')
+        .select(`
+            calificacion,
+            vehiculo_id,
+            vehiculos (
+                marca,
+                submarca,
+                modelo,
+                version
+            )
+        `)
         .eq('vehiculos.marca', document.getElementById('vci-brand').value)
         .eq('vehiculos.submarca', document.getElementById('vci-subbrand').value)
         .eq('vehiculos.modelo', document.getElementById('vci-model').value);
