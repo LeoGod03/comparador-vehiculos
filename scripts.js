@@ -251,6 +251,14 @@ async function updateVciSubbrands() {
         console.error("🚨 Error al obtener submarcas:", error);
         return;
     }
+    // Filtrar y llenar el selector con valores únicos
+    const uniqueSubbrands = [...new Set(submarcas.map(item => item.submarca))];
+    uniqueSubbrands.forEach(submarca => {
+        const option = document.createElement('option');
+        option.value = submarca;
+        option.textContent = submarca;
+        subbrandSelect.appendChild(option);
+    });
 }
 
 async function updateVeModels() {
