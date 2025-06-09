@@ -239,7 +239,7 @@ async function updateVciSubbrands() {
     if (!brandSelect.value) return;
 
     // Obtener submarcas desde Supabase, filtrando por marca y tipo VCI
-    let { data, error } = await supabase
+    let { data: submarcas, error } = await supabase
         .from('vehiculos')
         .select('marca, submarca, tipo')
         .eq('marca', brandSelect.value.toUpperCase())
