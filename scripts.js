@@ -22,10 +22,10 @@ const electricidadFactorEmision = 0.12; // kgCO2/kWh (promedio en México)
 async function populateBrands() {
     let { data, error } = await supabase
         .from('vehiculos')
-        .select('marca, tipo');  // Ahora obtenemos también el tipo de vehículo
+        .select('marca, tipo');  // Obtenemos marcas y tipo
 
     if (error) {
-        console.error(" Error al obtener marcas:", error);
+        console.error("🚨 Error al obtener marcas:", error);
         return;
     }
 
@@ -42,20 +42,35 @@ async function populateBrands() {
     vciBrandSelect.innerHTML = '<option value="">Seleccione Marca</option>';
     veBrandSelect.innerHTML = '<option value="">Seleccione Marca</option>';
 
-    // Filtrar y agregar marcas según el tipo de vehículo
-    data.forEach(vehicle => {
-        let option = document.createElement("option");
-        option.value = vehicle.marca;
-        option.textContent = vehicle.marca;
+    // Usar Set() para eliminar duplicados
+    const vciBrands = new Set();
+    const veBrands = new Set();
 
+    data.forEach(vehicle => {
         if (vehicle.tipo === "VCI") {
-            vciBrandSelect.appendChild(option);
+            vciBrands.add(vehicle.marca);
         } else if (vehicle.tipo === "VE") {
-            veBrandSelect.appendChild(option);
+            veBrands.add(vehicle.marca);
         }
     });
 
-    console.log("Marcas agregadas a los selectores.");
+    // Agregar marcas únicas al selector de VCI
+    vciBrands.forEach(marca => {
+        let optionVCI = document.createElement("option");
+        optionVCI.value = marca;
+        optionVCI.textContent = marca;
+        vciBrandSelect.appendChild(optionVCI);
+    });
+
+    // Agregar marcas únicas al selector de VE
+    veBrands.forEach(marca => {
+        let optionVE = document.createElement("option");
+        optionVE.value = marca;
+        optionVE.textContent = marca;
+        veBrandSelect.appendChild(optionVE);
+    });
+
+    console.log("✅ Marcas agregadas sin repetir.");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
