@@ -207,7 +207,7 @@ async function updateVeSubbrands() {
     let { data: submarcas, error } = await supabase
         .from('vehiculos')
         .select('submarca')
-        ilike('marca', brandSelect.value)
+        .eq('marca', brandSelect.value.toLowerCase())
         .eq('tipo', 'VE');  // Filtrar vehículos eléctricos
 
     if (error) {
@@ -242,7 +242,7 @@ async function updateVciSubbrands() {
     let { data, error } = await supabase
         .from('vehiculos')
         .select('marca, submarca, tipo')
-        .ilike('marca', brandSelect.value)
+        .eq('marca', brandSelect.value.toLowerCase())
         .eq('tipo', 'VCI');
 
     console.log("🔍 Datos recibidos de Supabase:", data); // Ver qué está recibiendo realmente
