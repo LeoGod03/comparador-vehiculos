@@ -345,41 +345,53 @@ async function getVciVehicles() {
         .eq('marca', document.getElementById('vci-brand').value)
         .eq('submarca', document.getElementById('vci-subbrand').value)
         .eq('modelo', document.getElementById('vci-model').value)
-        .eq('tipo', 'VCI');
+        .eq('tipo', 'VCI')
+        .order('calificacion', { ascending: false });  // Ordenar por calificación de mayor a menor
 
     if (error) {
         console.error("🚨 Error al obtener vehículos:", error);
         return [];
     }
 
-    console.log("🔍 Vehículos encontrados:", vehiculos);
+    console.log("🔍 Vehículos ordenados por calificación:", vehiculos);
     return vehiculos;
 }
 
 async function showVciOptions() {
     const selectionDiv = document.getElementById('vehicle-selection');
-    selectionDiv.innerHTML = '';
+
+    if (!selectionDiv) {
+        console.error("🚨 No se encontró el elemento 'vehicle-selection' en el DOM.");
+        return;
+    }
 
     let vehiculos = await getVciVehicles();
-    
+
     if (!vehiculos || vehiculos.length === 0) {
         selectionDiv.innerHTML = '<p>No se encontraron vehículos.</p>';
         return;
     }
 
-    if (vehiculos.length > 1) {
-        selectionDiv.style.display = 'block';
-        selectionDiv.innerHTML = '<p>Seleccione el vehículo que desea ver:</p>';
+    selectionDiv.style.display = 'block';
+    selectionDiv.innerHTML = '<label for="vehicle-select">Seleccione el vehículo por calificación:</label>';
+    
+    let select = document.createElement("select");
+    select.id = "vehicle-select";
+    select.innerHTML = '<option value="">Seleccione...</option>'; 
 
-        vehiculos.forEach((vehiculo) => {
-            let button = document.createElement('button');
-            button.textContent = `${vehiculo.version} (ID: ${vehiculo.id})`;
-            button.onclick = () => showVehicleDetails(vehiculo);
-            selectionDiv.appendChild(button);
-        });
-    } else {
-        showVehicleDetails(vehiculos[0]);
-    }
+    vehiculos.forEach((vehiculo) => {
+        let option = document.createElement("option");
+        option.value = vehiculo.id;
+        option.textContent = `${vehiculo.version} - Calificación: ${vehiculo.calificacion}`;
+        select.appendChild(option);
+    });
+
+    select.addEventListener("change", () => {
+        let selectedVehicle = vehiculos.find(v => v.id == select.value);
+        if (selectedVehicle) showVehicleDetails(selectedVehicle);
+    });
+
+    selectionDiv.appendChild(select);
 }
 
 function showVehicleDetails(vehiculo) {
