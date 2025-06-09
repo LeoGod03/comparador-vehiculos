@@ -340,20 +340,19 @@ async function showVeDetails() {
 
 async function getVciVehicles() {
     let { data: vehiculos, error } = await supabase
-        .from('vehiculos')
-        .select('*')
-        .eq('marca', document.getElementById('vci-brand').value)
-        .eq('submarca', document.getElementById('vci-subbrand').value)
-        .eq('modelo', document.getElementById('vci-model').value)
-        .eq('tipo', 'VCI')
-        .order('calificacion', { ascending: false });  // Ordenar por calificación de mayor a menor
+        .from('vehiculos_vci')
+        .select('vehiculos.marca, vehiculos.submarca, vehiculos.modelo, vehiculos.version, vehiculos_vci.calificacion, vehiculos_vci.*')
+        .eq('vehiculos.marca', document.getElementById('vci-brand').value)
+        .eq('vehiculos.submarca', document.getElementById('vci-subbrand').value)
+        .eq('vehiculos.modelo', document.getElementById('vci-model').value)
+        .order('vehiculos_vci.calificacion', { ascending: false });
 
     if (error) {
-        console.error("🚨 Error al obtener vehículos:", error);
+        console.error("🚨 Error al obtener vehículos VCI:", error);
         return [];
     }
 
-    console.log("🔍 Vehículos ordenados por calificación:", vehiculos);
+    console.log("🔍 Vehículos VCI ordenados por calificación:", vehiculos);
     return vehiculos;
 }
 
@@ -381,13 +380,13 @@ async function showVciOptions() {
 
     vehiculos.forEach((vehiculo) => {
         let option = document.createElement("option");
-        option.value = vehiculo.id;
+        option.value = vehiculo.vehiculo_id; // Usamos vehiculo_id en lugar de id
         option.textContent = `${vehiculo.version} - Calificación: ${vehiculo.calificacion}`;
         select.appendChild(option);
     });
 
     select.addEventListener("change", () => {
-        let selectedVehicle = vehiculos.find(v => v.id == select.value);
+        let selectedVehicle = vehiculos.find(v => v.vehiculo_id == select.value);
         if (selectedVehicle) showVehicleDetails(selectedVehicle);
     });
 
