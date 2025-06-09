@@ -245,7 +245,7 @@ async function updateVciSubbrands() {
         .eq('marca', brandSelect.value.toUpperCase())
         .eq('tipo', 'VCI');
 
-    console.log("🔍 Datos recibidos de Supabase:", data); // Ver qué está recibiendo realmente
+    console.log("🔍 Datos recibidos de Supabase:", submarcas); // Ver qué está recibiendo realmente
 
     if (error) {
         console.error("🚨 Error al obtener submarcas:", error);
