@@ -42,15 +42,17 @@ async function populateBrands() {
     vciBrandSelect.innerHTML = '<option value="">Seleccione Marca</option>';
     veBrandSelect.innerHTML = '<option value="">Seleccione Marca</option>';
 
-    // Usar Set() para eliminar duplicados
+    // Usar Set() con nombres limpios y en mayúsculas para evitar duplicados ocultos
     const vciBrands = new Set();
     const veBrands = new Set();
 
     data.forEach(vehicle => {
+        const cleanedMarca = vehicle.marca.trim().toUpperCase(); // Eliminar espacios y unificar nombres
+
         if (vehicle.tipo === "VCI") {
-            vciBrands.add(vehicle.marca);
+            vciBrands.add(cleanedMarca);
         } else if (vehicle.tipo === "VE") {
-            veBrands.add(vehicle.marca);
+            veBrands.add(cleanedMarca);
         }
     });
 
@@ -72,7 +74,6 @@ async function populateBrands() {
 
     console.log("✅ Marcas agregadas sin repetir.");
 }
-
 document.addEventListener("DOMContentLoaded", () => {
     console.log("⚡ DOM cargado, ejecutando carga de marcas...");
 
