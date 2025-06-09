@@ -226,6 +226,7 @@ async function updateVeSubbrands() {
         subbrandSelect.appendChild(option);
     });
 }
+
 async function updateVciSubbrands() {
     const brandSelect = document.getElementById('vci-brand');
     const subbrandSelect = document.getElementById('vci-subbrand');
@@ -237,30 +238,19 @@ async function updateVciSubbrands() {
 
     if (!brandSelect.value) return;
 
-    // Obtener submarcas desde Supabase, asegurando que sean solo de vehículos VCI
-    let { data: submarcas, error } = await supabase
+    // Obtener submarcas desde Supabase, filtrando por marca y tipo VCI
+    let { data, error } = await supabase
         .from('vehiculos')
-        .select('submarca')
+        .select('marca, submarca, tipo')
         .eq('marca', brandSelect.value)
-        .eq('tipo', 'VCI');  // Filtramos solo combustión interna
+        .eq('tipo', 'VCI');
+
+    console.log("🔍 Datos recibidos de Supabase:", data); // Ver qué está recibiendo realmente
 
     if (error) {
-        console.error('🚨 Error al obtener submarcas:', error);
+        console.error("🚨 Error al obtener submarcas:", error);
         return;
     }
-
-    console.log("🔍 Submarcas obtenidas para VCI:", submarcas); // Confirmar datos en la consola
-
-    // Usar Set() para eliminar duplicados y limpiar espacios
-    const uniqueSubbrands = [...new Set(submarcas.map(item => item.submarca.trim()))];
-    uniqueSubbrands.forEach(submarca => {
-        const option = document.createElement('option');
-        option.value = submarca;
-        option.textContent = submarca;
-        subbrandSelect.appendChild(option);
-    });
-
-    console.log("✅ Submarcas VCI agregadas correctamente.");
 }
 
 async function updateVeModels() {
