@@ -81,13 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     populateBrands();
 
     // Asignar eventos para actualizar detalles al cambiar modelo
-    document.getElementById('vci-model').addEventListener('change', async () => {
-        selectedVci = await fetchVciDetails(
-            document.getElementById('vci-brand').value,
-            document.getElementById('vci-subbrand').value,
-            document.getElementById('vci-model').value
-        );
-    });
+    document.getElementById('vci-model').addEventListener('change', showVciOptions);
 
     document.getElementById('ve-model').addEventListener('change', async () => {
         selectedVe = await fetchVeDetails(
@@ -343,28 +337,67 @@ async function showVeDetails() {
         showComparison();
     }
 }
-async function fetchVciDetails(brand, subbrand, model) {
-    let { data: vehiculo, error } = await supabase
-        .from('vehiculos')
-        .select(`
-            id, marca, submarca, modelo, version,
-            vehiculos_vci(transmision, combustible, cilindros, potencia_hp, tamano, categoria, 
-                          rendimiento_ciudad, rendimiento_carretera, rendimiento_combinado, rendimiento_ajustado, 
-                          co2_g_km, nox_mg_km, calificacion)
-        `)
-        .eq('marca', brand)
-        .eq('submarca', subbrand)
-        .eq('modelo', model)
-        .eq('tipo', 'VCI')
-        .single();
 
-    if (error || !vehiculo) {
-        console.error("🚨 Error al obtener detalles de VCI:", error);
-        return null;
+async function getVciVehicles() {
+    let { data: vehiculos, error } = await supabase
+        .from('vehiculos')
+        .select('*')
+        .eq('marca', document.getElementById('vci-brand').value)
+        .eq('submarca', document.getElementById('vci-subbrand').value)
+        .eq('modelo', document.getElementById('vci-model').value)
+        .eq('tipo', 'VCI');
+
+    if (error) {
+        console.error("🚨 Error al obtener vehículos:", error);
+        return [];
     }
 
-    return vehiculo;
+    console.log("🔍 Vehículos encontrados:", vehiculos);
+    return vehiculos;
 }
+
+async function showVciOptions() {
+    const selectionDiv = document.getElementById('vehicle-selection');
+    selectionDiv.innerHTML = '';
+
+    let vehiculos = await getVciVehicles();
+    
+    if (!vehiculos || vehiculos.length === 0) {
+        selectionDiv.innerHTML = '<p>No se encontraron vehículos.</p>';
+        return;
+    }
+
+    if (vehiculos.length > 1) {
+        selectionDiv.style.display = 'block';
+        selectionDiv.innerHTML = '<p>Seleccione el vehículo que desea ver:</p>';
+
+        vehiculos.forEach((vehiculo) => {
+            let button = document.createElement('button');
+            button.textContent = `${vehiculo.version} (ID: ${vehiculo.id})`;
+            button.onclick = () => showVehicleDetails(vehiculo);
+            selectionDiv.appendChild(button);
+        });
+    } else {
+        showVehicleDetails(vehiculos[0]);
+    }
+}
+
+function showVehicleDetails(vehiculo) {
+    const detailsDiv = document.getElementById('vci-details');
+    detailsDiv.innerHTML = `
+        <h2>${vehiculo.marca} ${vehiculo.submarca} ${vehiculo.modelo} (${vehiculo.version})</h2>
+        <table>
+            <tr><th>Transmisión</th><td>${vehiculo.transmision}</td></tr>
+            <tr><th>Combustible</th><td>${vehiculo.combustible}</td></tr>
+            <tr><th>Cilindros</th><td>${vehiculo.cilindros}</td></tr>
+            <tr><th>Potencia</th><td>${vehiculo.potencia_hp} HP</td></tr>
+            <tr><th>Rendimiento</th><td>${vehiculo.rendimiento_combinado} km/l</td></tr>
+            <tr><th>CO₂</th><td>${vehiculo.co2_g_km} g/km</td></tr>
+            <tr><th>Calificación</th><td>${vehiculo.calificacion}</td></tr>
+        </table>
+    `;
+}
+
 
 async function fetchVeDetails(brand, subbrand, model) {
     let { data: vehiculo, error } = await supabase
