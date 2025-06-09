@@ -242,7 +242,7 @@ async function updateVciSubbrands() {
     let { data, error } = await supabase
         .from('vehiculos')
         .select('marca, submarca, tipo')
-        .eq('marca', brandSelect.value)
+        .eq('marca', brandSelect.value.trim())
         .eq('tipo', 'VCI');
 
     console.log("🔍 Datos recibidos de Supabase:", data); // Ver qué está recibiendo realmente
