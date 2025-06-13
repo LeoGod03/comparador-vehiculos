@@ -339,21 +339,16 @@ async function showVeDetails() {
 }
 
 async function getVciVehicles() {
+    const marca = document.getElementById('vci-brand')?.value;
+    const submarca = document.getElementById('vci-subbrand')?.value;
+    const modelo = document.getElementById('vci-model')?.value;
+
     let { data: vehiculos, error } = await supabase
-        .from('vehiculos_vci')
-        .select(`
-            calificacion,
-            vehiculo_id,
-            vehiculos (
-                marca,
-                submarca,
-                modelo,
-                version
-            )
-        `)
-        .eq('vehiculos.marca', document.getElementById('vci-brand').value)
-        .eq('vehiculos.submarca', document.getElementById('vci-subbrand').value)
-        .eq('vehiculos.modelo', document.getElementById('vci-model').value);
+        .from('vista_vci_con_vehiculo')
+        .select('*')
+        .eq('marca', marca)
+        .eq('submarca', submarca)
+        .eq('modelo', modelo);
 
     if (error) {
         console.error("🚨 Error al obtener vehículos VCI:", error);
@@ -362,43 +357,6 @@ async function getVciVehicles() {
 
     console.log("🔍 Vehículos VCI obtenidos:", vehiculos);
     return vehiculos;
-}
-
-async function showVciOptions() {
-    const selectionDiv = document.getElementById('vehicle-selection');
-
-    if (!selectionDiv) {
-        console.error("🚨 No se encontró el elemento 'vehicle-selection' en el DOM.");
-        return;
-    }
-
-    let vehiculos = await getVciVehicles();
-
-    if (!vehiculos || vehiculos.length === 0) {
-        selectionDiv.innerHTML = '<p>No se encontraron vehículos.</p>';
-        return;
-    }
-
-    selectionDiv.style.display = 'block';
-    selectionDiv.innerHTML = '<label for="vehicle-select">Seleccione el vehículo por calificación:</label>';
-    
-    let select = document.createElement("select");
-    select.id = "vehicle-select";
-    select.innerHTML = '<option value="">Seleccione...</option>'; 
-
-    vehiculos.forEach((vehiculo) => {
-        let option = document.createElement("option");
-        option.value = vehiculo.vehiculo_id; // Usamos vehiculo_id en lugar de id
-        option.textContent = `${vehiculo.version} - Calificación: ${vehiculo.calificacion}`;
-        select.appendChild(option);
-    });
-
-    select.addEventListener("change", () => {
-        let selectedVehicle = vehiculos.find(v => v.vehiculo_id == select.value);
-        if (selectedVehicle) showVehicleDetails(selectedVehicle);
-    });
-
-    selectionDiv.appendChild(select);
 }
 
 function showVehicleDetails(vehiculo) {
