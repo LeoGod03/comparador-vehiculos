@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD VE</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="crud-ve.js"></script>
+</head>
+<body>
+    <h1>Administrar Vehículos VE</h1>
+
+    <button onclick="showCreateForm()">Agregar Nuevo VE</button>
+
+    <div id="create-form" style="display: none;">
+        <h2>Agregar Vehículo VE</h2>
+        <label>Marca: <input type="text" id="ve-marca"></label>
+        <label>Submarca: <input type="text" id="ve-submarca"></label>
+        <label>Modelo: <input type="text" id="ve-modelo"></label>
+        <label>Versión: <input type="text" id="ve-version"></label>
+        <label>Autonomía (km): <input type="number" id="ve-autonomia"></label>
+        <button onclick="createVe()">Guardar</button>
+    </div>
+
+    <h2>Lista de Vehículos VE</h2>
+    <div id="ve-list"></div>
+</body>
+</html>

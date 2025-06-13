@@ -107,3 +107,25 @@ button:hover {
   flex: 1;
   padding: 0 1rem;
 }
+
+.crud-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.crud-navigation button {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.crud-navigation button:hover {
+    background-color: #005fa3;
+}
