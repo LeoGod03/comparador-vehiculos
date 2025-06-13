@@ -391,6 +391,7 @@ async function showVeOptions() {
 
     select.addEventListener("change", () => {
         let selectedVehicle = vehiculos.find(v => v.vehiculo_id == select.value);
+        selectedVe = selectedVehicle;
         if (selectedVehicle) showVehicleDetails(selectedVehicle, 've'); // Pasamos tipo
     });
 
@@ -449,6 +450,7 @@ async function showVciOptions() {
 
     select.addEventListener("change", () => {
         let selectedVehicle = vehiculos.find(v => v.vehiculo_id == select.value);
+        selectedVci = selectedVehicle;
         if (selectedVehicle) showVehicleDetails(selectedVehicle, "vci");
     });
 
@@ -556,42 +558,47 @@ async function calculateTotals() {
         return;
     }
 
-    // Mostrar la sección de resultados totales
     const resultsDiv = document.getElementById('total-results');
     resultsDiv.style.display = 'block';
 
-    // Actualizar nombres en la tabla de totales
     document.getElementById('vci-total-name').textContent = `${selectedVci.marca} ${selectedVci.submarca}`;
     document.getElementById('ve-total-name').textContent = `${selectedVe.marca} ${selectedVe.submarca}`;
 
-    // Validar datos antes de cálculos
-    const vciRendimiento = selectedVci.vehiculos_vci.rendimiento_combinado || 1;
-    const veRendimiento = selectedVe.vehiculos_ev.rendimiento_km_kwh || 1;
+    // === Parámetros base ===
+    const gasolinaDensidad = 0.74;              // kg/L
+    const gasolinaPrecio = 24.0;                // MXN/L
+    const gasolinaFactorEmision = 2.3;          // kgCO₂/L
+    const electricidadPrecio = 2.8;             // MXN/kWh
+    const electricidadFactorEmision = 0.4;      // kgCO₂/kWh
 
-    // Calcular consumo de energía total
-    const vciEnergyConsumption = (1 / vciRendimiento) * gasolinaDensidad * 39.53 / 3.6; // kWh/km
-    const vciTotalEnergy = vciEnergyConsumption * mileage;
-    const veEnergyConsumption = 1 / veRendimiento; // kWh/km
-    const veTotalEnergy = veEnergyConsumption * mileage;
+    // === Datos desde las vistas ===
+    const vciRendimiento = selectedVci.rendimiento_combinado || 1;
+    const veRendimiento = selectedVe.rendimiento_km_kwh || 1;
+
+    // === Energía ===
+    const vciEnergyPerKm = (1 / vciRendimiento) * gasolinaDensidad * 39.53 / 3.6;  // kWh/km
+    const vciTotalEnergy = vciEnergyPerKm * mileage;
+    const veEnergyPerKm = 1 / veRendimiento;
+    const veTotalEnergy = veEnergyPerKm * mileage;
 
     document.getElementById('vci-total-energy').textContent = vciTotalEnergy.toFixed(2) + ' kWh';
     document.getElementById('ve-total-energy').textContent = veTotalEnergy.toFixed(2) + ' kWh';
 
-    // Calcular costos totales
+    // === Costos ===
     const vciCostPerKm = (1 / vciRendimiento) * gasolinaPrecio;
     const vciTotalCost = vciCostPerKm * mileage;
-    const veCostPerKm = veEnergyConsumption * electricidadPrecio;
+    const veCostPerKm = veEnergyPerKm * electricidadPrecio;
     const veTotalCost = veCostPerKm * mileage;
 
     document.getElementById('vci-total-cost').textContent = '$' + vciTotalCost.toFixed(2) + ' MXN';
     document.getElementById('ve-total-cost').textContent = '$' + veTotalCost.toFixed(2) + ' MXN';
 
-    // Calcular emisiones totales
-    const vciEmissions = (1 / vciRendimiento) * gasolinaFactorEmision;
-    const vciTotalEmissions = vciEmissions * mileage;
-    const veEmissions = veEnergyConsumption * electricidadFactorEmision;
-    const veTotalEmissions = veEmissions * mileage;
+    // === Emisiones ===
+    const vciEmissionsPerKm = (1 / vciRendimiento) * gasolinaFactorEmision;
+    const vciTotalEmissions = vciEmissionsPerKm * mileage;
+    const veEmissionsPerKm = veEnergyPerKm * electricidadFactorEmision;
+    const veTotalEmissions = veEmissionsPerKm * mileage;
 
-    document.getElementById('vci-total-emissions').textContent = vciTotalEmissions.toFixed(2) + ' kgCO2';
-    document.getElementById('ve-total-emissions').textContent = veTotalEmissions.toFixed(2) + ' kgCO2';
+    document.getElementById('vci-total-emissions').textContent = vciTotalEmissions.toFixed(2) + ' kgCO₂';
+    document.getElementById('ve-total-emissions').textContent = veTotalEmissions.toFixed(2) + ' kgCO₂';
 }
