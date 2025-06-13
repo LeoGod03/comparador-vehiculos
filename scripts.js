@@ -506,7 +506,8 @@ async function fetchVeDetails(brand, subbrand, model) {
     return vehiculo;
 }
 
-        // Función para mostrar la comparación
+
+// Función para mostrar la comparación
 async function showComparison() {
     if (!selectedVci || !selectedVe) return;
 
