@@ -419,7 +419,7 @@ async function getVciVehicles() {
 }
 
 async function showVciOptions() {
-    const selectionDiv = document.getElementById('vehicle-selection');
+    const selectionDiv = document.getElementById('vci-selection');
 
     if (!selectionDiv) {
         console.error("🚨 No se encontró el elemento 'vehicle-selection' en el DOM.");
