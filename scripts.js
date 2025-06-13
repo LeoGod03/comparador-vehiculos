@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Asignar eventos para actualizar detalles al cambiar modelo
     document.getElementById('vci-model').addEventListener('change', showVciOptions);
+    document.getElementById('ve-model').addEventListener('change', showVeOptions);
 
     document.getElementById('ve-model').addEventListener('change', async () => {
         selectedVe = await fetchVeDetails(
@@ -338,6 +339,64 @@ async function showVeDetails() {
     }
 }
 
+async function getVeVehicles() {
+    const marca = document.getElementById('ve-brand')?.value;
+    const submarca = document.getElementById('ve-subbrand')?.value;
+    const modelo = document.getElementById('ve-model')?.value;
+
+    let { data: vehiculos, error } = await supabase
+        .from('vista_ve_con_vehiculo')
+        .select('*')
+        .eq('marca', marca)
+        .eq('submarca', submarca)
+        .eq('modelo', modelo);
+
+    if (error) {
+        console.error("🚨 Error al obtener vehículos VE:", error);
+        return [];
+    }
+
+    console.log("🔍 Vehículos VE obtenidos:", vehiculos);
+    return vehiculos;
+}
+
+async function showVeOptions() {
+    const selectionDiv = document.getElementById('ve-selection');
+
+    if (!selectionDiv) {
+        console.error("🚨 No se encontró el elemento 've-selection' en el DOM.");
+        return;
+    }
+
+    let vehiculos = await getVeVehicles();
+
+    if (!vehiculos || vehiculos.length === 0) {
+        selectionDiv.innerHTML = '<p>No se encontraron vehículos.</p>';
+        return;
+    }
+
+    selectionDiv.style.display = 'block';
+    selectionDiv.innerHTML = '<label for="ve-vehicle-select">Seleccione el vehículo por autonomía:</label>';
+
+    let select = document.createElement("select");
+    select.id = "ve-vehicle-select";
+    select.innerHTML = '<option value="">Seleccione...</option>';
+
+    vehiculos.forEach((vehiculo) => {
+        let option = document.createElement("option");
+        option.value = vehiculo.vehiculo_id;
+        option.textContent = `${vehiculo.version} - Autonomía: ${vehiculo.autonomia_km} km`;
+        select.appendChild(option);
+    });
+
+    select.addEventListener("change", () => {
+        let selectedVehicle = vehiculos.find(v => v.vehiculo_id == select.value);
+        if (selectedVehicle) showVehicleDetails(selectedVehicle, 've'); // Pasamos tipo
+    });
+
+    selectionDiv.appendChild(select);
+}
+
 async function getVciVehicles() {
     const marca = document.getElementById('vci-brand')?.value;
     const submarca = document.getElementById('vci-subbrand')?.value;
@@ -390,24 +449,34 @@ async function showVciOptions() {
 
     select.addEventListener("change", () => {
         let selectedVehicle = vehiculos.find(v => v.vehiculo_id == select.value);
-        if (selectedVehicle) showVehicleDetails(selectedVehicle);
+        if (selectedVehicle) showVehicleDetails(selectedVehicle, "vci");
     });
 
     selectionDiv.appendChild(select);
 }
 
-function showVehicleDetails(vehiculo) {
-    const detailsDiv = document.getElementById('vci-details');
+function showVehicleDetails(vehiculo, tipo) {
+    const detailsDiv = document.getElementById(tipo === 've' ? 've-details' : 'vci-details');
+
     detailsDiv.innerHTML = `
         <h2>${vehiculo.marca} ${vehiculo.submarca} ${vehiculo.modelo} (${vehiculo.version})</h2>
         <table>
-            <tr><th>Transmisión</th><td>${vehiculo.transmision}</td></tr>
-            <tr><th>Combustible</th><td>${vehiculo.combustible}</td></tr>
-            <tr><th>Cilindros</th><td>${vehiculo.cilindros}</td></tr>
-            <tr><th>Potencia</th><td>${vehiculo.potencia_hp} HP</td></tr>
-            <tr><th>Rendimiento</th><td>${vehiculo.rendimiento_combinado} km/l</td></tr>
-            <tr><th>CO₂</th><td>${vehiculo.co2_g_km} g/km</td></tr>
-            <tr><th>Calificación</th><td>${vehiculo.calificacion}</td></tr>
+            ${tipo === 've' ? `
+                <tr><th>Potencia</th><td>${vehiculo.potencia_hp} HP</td></tr>
+                <tr><th>Capacidad batería</th><td>${vehiculo.capacidad_bateria_kwh} kWh</td></tr>
+                <tr><th>Autonomía</th><td>${vehiculo.autonomia_km} km</td></tr>
+                <tr><th>Rendimiento</th><td>${vehiculo.rendimiento_km_kwh} km/kWh</td></tr>
+                <tr><th>Pasajeros</th><td>${vehiculo.pasajeros}</td></tr>
+                <tr><th>Características</th><td>${vehiculo.caracteristicas}</td></tr>
+            ` : `
+                <tr><th>Transmisión</th><td>${vehiculo.transmision}</td></tr>
+                <tr><th>Combustible</th><td>${vehiculo.combustible}</td></tr>
+                <tr><th>Cilindros</th><td>${vehiculo.cilindros}</td></tr>
+                <tr><th>Potencia</th><td>${vehiculo.potencia_hp} HP</td></tr>
+                <tr><th>Rendimiento</th><td>${vehiculo.rendimiento_combinado} km/l</td></tr>
+                <tr><th>CO₂</th><td>${vehiculo.co2_g_km} g/km</td></tr>
+                <tr><th>Calificación</th><td>${vehiculo.calificacion}</td></tr>
+            `}
         </table>
     `;
 }
@@ -434,7 +503,6 @@ async function fetchVeDetails(brand, subbrand, model) {
 
     return vehiculo;
 }
-
 
         // Función para mostrar la comparación
 async function showComparison() {
