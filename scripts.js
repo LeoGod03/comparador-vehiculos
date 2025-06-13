@@ -106,8 +106,8 @@ async function updateVciModels() {
 
     // Consultar Supabase para obtener los modelos de la marca y submarca seleccionadas
     let { data: modelos, error } = await supabase
-        .from('vehiculos')  // Usamos la tabla principal
-        .select('modelo')   // Solo obtenemos el modelo
+        .from('vehiculos')
+        .select('modelo')
         .eq('marca', brandSelect.value)
         .eq('submarca', subbrandSelect.value)
         .eq('tipo', 'VCI');  // Filtramos solo vehículos de combustión interna
@@ -117,17 +117,20 @@ async function updateVciModels() {
         return;
     }
 
-    console.log("🔍 Modelos obtenidos:", modelos); // Confirmar datos en la consola
+    console.log("🔍 Modelos obtenidos:", modelos); // Confirmar datos en consola
 
-    // Llenar el select con los modelos obtenidos
-    modelos.forEach(({ modelo }) => {
+    // Crear un Set para evitar duplicados
+    const modelosUnicos = new Set(modelos.map(({ modelo }) => modelo));
+
+    // Llenar el select con los modelos únicos
+    modelosUnicos.forEach((modelo) => {
         const option = document.createElement('option');
         option.value = modelo;
         option.textContent = modelo;
         modelSelect.appendChild(option);
     });
 
-    console.log("✅ Modelos agregados al selector.");
+    console.log("✅ Modelos únicos agregados al selector.");
 }
 
 async function showVciDetails() {
@@ -281,8 +284,11 @@ async function updateVeModels() {
 
     console.log("🔍 Modelos obtenidos:", modelos); // Confirmar datos en consola
 
-    // Llenar el select con los modelos obtenidos
-    modelos.forEach(({ modelo }) => {
+    // Crear un Set para evitar duplicados
+    const modelosUnicos = new Set(modelos.map(({ modelo }) => modelo));
+
+    // Llenar el select con los modelos únicos
+    modelosUnicos.forEach((modelo) => {
         const option = document.createElement('option');
         option.value = modelo;
         option.textContent = modelo;
