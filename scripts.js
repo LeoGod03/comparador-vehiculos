@@ -359,6 +359,43 @@ async function getVciVehicles() {
     return vehiculos;
 }
 
+async function showVciOptions() {
+    const selectionDiv = document.getElementById('vehicle-selection');
+
+    if (!selectionDiv) {
+        console.error("🚨 No se encontró el elemento 'vehicle-selection' en el DOM.");
+        return;
+    }
+
+    let vehiculos = await getVciVehicles();
+
+    if (!vehiculos || vehiculos.length === 0) {
+        selectionDiv.innerHTML = '<p>No se encontraron vehículos.</p>';
+        return;
+    }
+
+    selectionDiv.style.display = 'block';
+    selectionDiv.innerHTML = '<label for="vehicle-select">Seleccione el vehículo por calificación:</label>';
+    
+    let select = document.createElement("select");
+    select.id = "vehicle-select";
+    select.innerHTML = '<option value="">Seleccione...</option>'; 
+
+    vehiculos.forEach((vehiculo) => {
+        let option = document.createElement("option");
+        option.value = vehiculo.vehiculo_id; // Usamos vehiculo_id en lugar de id
+        option.textContent = `${vehiculo.version} - Calificación: ${vehiculo.calificacion}`;
+        select.appendChild(option);
+    });
+
+    select.addEventListener("change", () => {
+        let selectedVehicle = vehiculos.find(v => v.vehiculo_id == select.value);
+        if (selectedVehicle) showVehicleDetails(selectedVehicle);
+    });
+
+    selectionDiv.appendChild(select);
+}
+
 function showVehicleDetails(vehiculo) {
     const detailsDiv = document.getElementById('vci-details');
     detailsDiv.innerHTML = `
