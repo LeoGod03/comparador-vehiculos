@@ -399,6 +399,8 @@ async function showVeOptions() {
         let selectedVehicle = vehiculos.find(v => v.vehiculo_id == select.value);
         selectedVe = selectedVehicle;
         if (selectedVehicle) showVehicleDetails(selectedVehicle, 've'); // Pasamos tipo
+        if(selectedVci)
+            showComparison()
     });
 
     selectionDiv.appendChild(select);
@@ -458,6 +460,8 @@ async function showVciOptions() {
         let selectedVehicle = vehiculos.find(v => v.vehiculo_id == select.value);
         selectedVci = selectedVehicle;
         if (selectedVehicle) showVehicleDetails(selectedVehicle, "vci");
+        if(selectedVe)
+            showComparison()
     });
 
     selectionDiv.appendChild(select);
