@@ -27,6 +27,7 @@ async function saveVci() {
         rendimiento_ciudad: parseFloat(document.getElementById('vci-rendimiento-ciudad').value),
         rendimiento_carretera: parseFloat(document.getElementById('vci-rendimiento-carretera').value),
         rendimiento_combinado: parseFloat(document.getElementById('vci-rendimiento-combinado').value),
+        rendimiento_ajustado: parseFloat(document.getElementById('vci-rendimiento-ajustado').value),
         co2_g_km: parseFloat(document.getElementById('vci-co2').value),
         nox_mg_km: parseFloat(document.getElementById('vci-nox').value),
         calificacion: document.getElementById('vci-calificacion').value
@@ -100,8 +101,8 @@ async function listVci() {
                 <strong>${vci.marca} ${vci.submarca} ${vci.modelo} - ${vci.version}</strong><br>
                 Transmisión: ${vci.transmision} | Combustible: ${vci.combustible} | Cilindros: ${vci.cilindros}<br>
                 Potencia: ${vci.potencia_hp} hp | Tamaño: ${vci.tamano} | Categoría: ${vci.categoria}<br>
-                Rendimiento Ciudad:** ${vci.rendimiento_ciudad} km/l | Carretera: ${vci.rendimiento_carretera} km/l | Combinado: ${vci.rendimiento_combinado} km/l<br>
-                CO₂: ${vci.co2_g_km} g/km | NOx: ${vci.nox_mg_km} mg/km<br>
+                Rendimiento ciudad: ${vci.rendimiento_ciudad} km/l | Carretera: ${vci.rendimiento_carretera} km/l | Combinado: ${vci.rendimiento_combinado} km/l | 
+                ajustado: ${vci.rendimiento_ajustado}<br>CO₂: ${vci.co2_g_km} g/km | NOx: ${vci.nox_mg_km} mg/km<br>
                 Calificación: ${vci.calificacion}
             </div>
             <div class="vci-actions">
@@ -132,6 +133,7 @@ function showCreateForm(vehiculo = null) {
         document.getElementById('vci-rendimiento-ciudad').value = vehiculo.rendimiento_ciudad;
         document.getElementById('vci-rendimiento-carretera').value = vehiculo.rendimiento_carretera;
         document.getElementById('vci-rendimiento-combinado').value = vehiculo.rendimiento_combinado;
+        document.getElementById('vci-rendimiento-ajustado').value = vehiculo.rendimiento_ajustado;
         document.getElementById('vci-co2').value = vehiculo.co2_g_km;
         document.getElementById('vci-nox').value = vehiculo.nox_mg_km;
         document.getElementById('vci-calificacion').value = vehiculo.calificacion;
@@ -139,10 +141,6 @@ function showCreateForm(vehiculo = null) {
         document.getElementById('modal-form').reset();
         document.getElementById('vci-id').value = "";
     }
-}
-
-function closeModal() {
-    document.getElementById('modal-form').style.display = "none"; // 🔧 Ahora sí se cierra correctamente
 }
 
 function closeModal() {
