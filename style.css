@@ -268,3 +268,18 @@ button:hover {
     font-weight: bold;
     margin-top: 0.5rem;
 }
+
+#message-modal .modal-content {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 40%;
+    max-width: 400px;
+    text-align: center;
+}
+
+#message-text {
+    font-size: 1rem;
+    color: #4a1c40;
+}

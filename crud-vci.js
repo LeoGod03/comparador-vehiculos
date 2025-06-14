@@ -32,12 +32,13 @@ async function saveVci() {
         nox_mg_km: parseFloat(document.getElementById('vci-nox').value),
         calificacion: document.getElementById('vci-calificacion').value
     };
-
+    closeModal();
     if (vehiculoId) {
         await updateVci(vehiculoId, vehiculoData, vciData);
     } else {
         await createVci(vehiculoData, vciData);
     }
+    
 }
 
 async function createVci(vehiculoData, vciData) {
@@ -47,7 +48,8 @@ async function createVci(vehiculoData, vciData) {
         .select();
 
     if (errorVehiculo) {
-        console.error("🚨 Error al guardar en 'vehiculos':", errorVehiculo);
+        console.error("Error al guardar en 'vehiculos':", errorVehiculo);
+        showMessageModal("Error al guardar en 'vehiculos");
         return;
     }
 
@@ -58,11 +60,12 @@ async function createVci(vehiculoData, vciData) {
         .insert([vciData]);
 
     if (errorVci) {
-        console.error("🚨 Error al guardar en 'vehiculos_vci':", errorVci);
+        console.error("Error al guardar en 'vehiculos_vci':", errorVci);
+        showMessageModal("Error al guardar en 'vehiculos");
         return;
     }
 
-    alert("✅ Vehículo VCI agregado correctamente.");
+    showMessageModal("Vehículo VCI agregado correctamente.");
     listVci();
 }
 
@@ -77,7 +80,7 @@ async function updateVci(vehiculoId, vehiculoData, vciData) {
         .update(vciData)
         .eq('vehiculo_id', vehiculoId);
 
-    alert("✅ Vehículo VCI actualizado correctamente.");
+    showMessageModal("Vehículo VCI actualizado correctamente.")
     listVci();
 }
 
@@ -90,7 +93,8 @@ async function listVci() {
         .select('*');
 
     if (error) {
-        console.error("🚨 Error al listar vehículos VCI:", error);
+        console.error("Error al listar vehículos VCI:", error);
+        showMessageModal("Error al listar vehículos VCI");
         return;
     }
 
@@ -145,5 +149,14 @@ function showCreateForm(vehiculo = null) {
 
 function closeModal() {
     document.getElementById('modal-form').style.display = "none";
+}
+
+function showMessageModal(message) {
+    document.getElementById("message-text").innerText = message;
+    document.getElementById("message-modal").style.display = "flex";
+}
+
+function closeMessageModal() {
+    document.getElementById("message-modal").style.display = "none";
 }
 document.addEventListener("DOMContentLoaded", listVci);
