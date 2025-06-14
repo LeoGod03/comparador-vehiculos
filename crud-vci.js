@@ -1,6 +1,11 @@
-const supabaseUrl = 'https://ivvregyexgtkkqahveum.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dnJlZ3lleGd0a2txYWh2ZXVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4NDE5ODYsImV4cCI6MjA2NDQxNzk4Nn0.twDkCOdE4rUErbH4bAY1GMQEzpz4dnZqLfT-iz8Zj4U';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const { createClient } = window.supabase;
+// Inicializar Supabase
+const supabase = createClient(
+    'https://ivvregyexgtkkqahveum.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2dnJlZ3lleGd0a2txYWh2ZXVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4NDE5ODYsImV4cCI6MjA2NDQxNzk4Nn0.twDkCOdE4rUErbH4bAY1GMQEzpz4dnZqLfT-iz8Zj4U'
+);
+
+console.log(" Supabase inicializado correctamente:", supabase);
 
 async function createVci() {
     const { data: vehiculo, error: errorVehiculo } = await supabase
