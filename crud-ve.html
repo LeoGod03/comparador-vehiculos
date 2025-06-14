@@ -9,21 +9,55 @@
     <script defer src="crud-ve.js"></script>
 </head>
 <body>
-    <h1>Administrar Vehículos VE</h1>
-
+    <h1>Administrar Vehículos Eléctricos (VE)</h1>
+    
     <button onclick="showCreateForm()">Agregar Nuevo VE</button>
+    
+    <!-- Modal para agregar/editar vehículos VE -->
+    <div id="modal-form" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Agregar/Editar Vehículo VE</h2>
+            <input type="hidden" id="ve-id">
+            <label>Marca: <input type="text" id="ve-marca"></label>
+            <label>Submarca: <input type="text" id="ve-submarca"></label>
+            <label>Modelo: <input type="text" id="ve-modelo"></label>
+            <label>Versión: <input type="text" id="ve-version"></label>
+            <label>Potencia HP: <input type="number" id="ve-potencia"></label>
+            <label>Capacidad batería (kWh): <input type="number" id="ve-bateria"></label>
+            <label>Autonomía (km): <input type="number" id="ve-autonomia"></label>
+            <label>Rendimiento (km/kWh): <input type="number" id="ve-rendimiento"></label>
+            <label>Pasajeros: <input type="number" id="ve-pasajeros"></label>
+            <label>Características: <input type="text" id="ve-caracteristicas"></label>
+            <button onclick="saveVe()">Guardar</button>
+        </div>
+    </div>
 
-    <div id="create-form" style="display: none;">
-        <h2>Agregar Vehículo VE</h2>
-        <label>Marca: <input type="text" id="ve-marca"></label>
-        <label>Submarca: <input type="text" id="ve-submarca"></label>
-        <label>Modelo: <input type="text" id="ve-modelo"></label>
-        <label>Versión: <input type="text" id="ve-version"></label>
-        <label>Autonomía (km): <input type="number" id="ve-autonomia"></label>
-        <button onclick="createVe()">Guardar</button>
+    <!-- Modal de mensaje -->
+    <div id="message-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeMessageModal()">&times;</span>
+            <p id="message-text"></p>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div id="confirm-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeConfirmModal()">&times;</span>
+            <h2>Confirmar eliminación</h2>
+            <p>¿Estás seguro de que quieres eliminar este vehículo?</p>
+            <input type="hidden" id="delete-id">
+            <div class="modal-actions">
+                <button class="confirm-btn" onclick="confirmDelete()">Eliminar</button>
+                <button class="cancel-btn" onclick="closeConfirmModal()">Cancelar</button>
+            </div>
+        </div>
     </div>
 
     <h2>Lista de Vehículos VE</h2>
     <div id="ve-list"></div>
+
+    <button onclick="location.href='index.html'" class="return-btn">⬅️ Volver al Inicio</button>
 </body>
 </html>
