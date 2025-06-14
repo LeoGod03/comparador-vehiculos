@@ -110,7 +110,7 @@ async function listVci() {
 
 function showCreateForm(vehiculo = null) {
     const modal = document.getElementById('modal-form');
-    modal.style.display = "flex";
+    modal.style.display = "flex"; 
 
     if (vehiculo) {
         document.getElementById('vci-id').value = vehiculo.vehiculo_id;
@@ -134,6 +134,10 @@ function showCreateForm(vehiculo = null) {
         document.getElementById('modal-form').reset();
         document.getElementById('vci-id').value = "";
     }
+}
+
+function closeModal() {
+    document.getElementById('modal-form').style.display = "none"; // 🔧 Ahora sí se cierra correctamente
 }
 
 function closeModal() {

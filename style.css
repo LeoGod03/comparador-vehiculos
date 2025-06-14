@@ -229,7 +229,7 @@ button:hover {
     background-color: #4a1c40;
 }
 .modal {
-    display: none;
+    display: none; 
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -249,6 +249,9 @@ button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 50%;
     max-width: 600px;
+    max-height: 80vh; /* 🔧 Altura máxima */
+    overflow-y: auto; /* 🔧 Agrega scroll vertical si es necesario */
+    position: relative;
 }
 
 .close {
