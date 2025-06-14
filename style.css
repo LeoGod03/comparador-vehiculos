@@ -1,111 +1,117 @@
- body {
-    font-family: Arial, sans-serif;
+/* 🎓 Estilo universitario con colores vino y blanco */
+body {
+    font-family: 'Merriweather', serif; /* Fuente con toque institucional */
     line-height: 1.6;
     margin: 0;
     padding: 20px;
-    color: #333;
+    background-color: #f8f8f8; /* Blanco suave */
+    color: #4a1c40; /* Vino oscuro */
 }
+
 h1 {
-    color: #2c3e50;
+    color: #7a1832; /* Vino profundo */
     text-align: center;
+    font-weight: bold;
 }
+
 .comparator-container {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
     margin-bottom: 30px;
 }
+
 .vehicle-selector {
     width: 45%;
     min-width: 300px;
     margin-bottom: 20px;
     padding: 15px;
-    border: 1px solid #ddd;
+    border: 2px solid #7a1832; /* Borde en color vino */
     border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: white;
 }
- .vehicle-selector h2 {
+
+.vehicle-selector h2 {
     margin-top: 0;
-    color: #3498db;
+    color: #7a1832; /* Vino */
 }
-select {
+
+select, input {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
+    border: 2px solid #7a1832; /* Bordes vino */
     border-radius: 4px;
+    font-size: 1rem;
 }
+
 .vehicle-info {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
     margin-bottom: 30px;
 }
+
 .vehicle-details {
     width: 45%;
     min-width: 300px;
     padding: 15px;
-    border: 1px solid #ddd;
+    border: 2px solid #7a1832;
     border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: white;
     margin-bottom: 20px;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
 }
+
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #7a1832; /* Bordes vino */
     padding: 8px;
     text-align: left;
 }
+
 th {
     background-color: #f2f2f2;
+    color: #7a1832; /* Vino en los encabezados */
 }
-.comparison-table {
-    width: 80%;
-    margin: 0 auto 30px;
-}
-.mileage-input {
-    text-align: center;
-    margin-bottom: 30px;
-}
-input[type="number"] {
-    padding: 8px;
-    width: 150px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
+
 button {
-    background-color: #3498db;
+    background-color: #7a1832; /* Vino */
     color: white;
     border: none;
     padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
+    transition: background 0.3s ease-in-out;
 }
+
 button:hover {
-    background-color: #2980b9;
+    background-color: #4a1c40; /* Vino más oscuro */
 }
+
 .total-results {
     width: 80%;
     margin: 0 auto;
     padding: 15px;
-    border: 1px solid #ddd;
+    border: 2px solid #7a1832;
     border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: white;
     display: none;
 }
+
 .vehicle-selection-wrapper {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
 }
 
 .vehicle-selection {
-  flex: 1;
-  padding: 0 1rem;
+    flex: 1;
+    padding: 0 1rem;
 }
 
 .crud-navigation {
@@ -118,7 +124,7 @@ button:hover {
 .crud-navigation button {
     padding: 0.7rem 1.5rem;
     font-size: 1rem;
-    background-color: #007acc;
+    background-color: #7a1832;
     color: white;
     border: none;
     border-radius: 5px;
@@ -127,5 +133,5 @@ button:hover {
 }
 
 .crud-navigation button:hover {
-    background-color: #005fa3;
+    background-color: #4a1c40;
 }
