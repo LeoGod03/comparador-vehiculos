@@ -172,3 +172,17 @@ button:hover {
 #vci-list button:hover {
     background-color: #4a1c40; /* Vino más oscuro */
 }
+
+#vci-list div {
+    padding: 0.8rem;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.vci-actions {
+    display: flex;
+    gap: 0.5rem;
+}

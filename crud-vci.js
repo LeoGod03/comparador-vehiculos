@@ -66,9 +66,12 @@ async function listVci() {
 
     vehiculos.forEach(vci => {
         let item = document.createElement("div");
-        item.innerHTML = `${vci.marca} ${vci.submarca} (${vci.modelo}) - ${vci.version}  
+        item.innerHTML = `
+        <span>${vci.marca} ${vci.submarca} (${vci.modelo}) - ${vci.version}</span>
+        <div class="vci-actions">
             <button onclick="editVci(${vci.vehiculo_id})">Editar</button>
-            <button onclick="deleteVci(${vci.vehiculo_id})">Eliminar</button>`;
+            <button onclick="deleteVci(${vci.vehiculo_id})">Eliminar</button>
+        </div>`;
         listDiv.appendChild(item);
     });
 }
