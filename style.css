@@ -181,10 +181,15 @@ button:hover {
 }
 
 .vci-actions {
-    display: flex;
+    display: inline-flex;
+    flex-wrap: nowrap;
     gap: 0.5rem;
+    justify-content: flex-end;
+    align-items: center;
 }
+
 .vci-entry {
+    display: flex;
     background-color: #fff;
     border: 2px solid #7a1832; /* Borde vino */
     border-radius: 8px;
