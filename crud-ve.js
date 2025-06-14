@@ -84,9 +84,9 @@ async function listVe() {
         item.innerHTML = `
             <div class="ve-details">
                 <strong>${ve.marca} ${ve.submarca} ${ve.modelo} - ${ve.version}</strong><br>
-                🔹 <b>Potencia:</b> ${ve.potencia_hp} hp | <b>Capacidad:</b> ${ve.capacidad_bateria_kwh} kWh | <b>Autonomía:</b> ${ve.autonomia_km} km<br>
-                🔹 <b>Rendimiento:</b> ${ve.rendimiento_km_kwh} km/kWh | <b>Pasajeros:</b> ${ve.pasajeros}<br>
-                🔹 <b>Características:</b> ${ve.caracteristicas}
+                <b>Potencia:</b> ${ve.potencia_hp} hp | <b>Capacidad:</b> ${ve.capacidad_bateria_kwh} kWh | <b>Autonomía:</b> ${ve.autonomia_km} km<br>
+                <b>Rendimiento:</b> ${ve.rendimiento_km_kwh} km/kWh | <b>Pasajeros:</b> ${ve.pasajeros}<br>
+                <b>Características:</b> ${ve.caracteristicas}
             </div>
             <div class="ve-actions">
                 <button onclick='showCreateForm(${JSON.stringify(ve)})'>Editar</button>
