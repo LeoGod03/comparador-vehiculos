@@ -365,44 +365,6 @@ button:hover {
 }
 
 
-.ve-entry {
-    background-color: #fff;
-    border: 2px solid #7a1832; /* Borde institucional vino */
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    padding: 1rem 1.5rem;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    color: #4a1c40;
-    font-size: 0.95rem;
-    line-height: 1.5;
-}
-
-.ve-actions {
-    display: inline-flex;
-    gap: 0.5rem;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.ve-actions button {
-    background-color: #7a1832; /* Vino */
-    color: white;
-    font-size: 0.9rem;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.ve-actions button:hover {
-    background-color: #4a1c40; /* Vino oscuro */
-}
-
 #ve-list {
     width: 90%;
     margin: 2rem auto;
@@ -417,24 +379,74 @@ button:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 #ve-list div:last-child {
     border-bottom: none; /* Evita línea extra al final */
 }
 
-.return-btn {
-    background-color: #4a1c40; /* Vino oscuro */
+#ve-list button {
+    background-color: #7a1832; /* Vino */
     color: white;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    margin-left: 1rem;
+}
+
+#ve-list button:hover {
+    background-color: #4a1c40; /* Vino más oscuro */
+}
+
+.ve-entry {
+    background-color: #fff;
+    border: 2px solid #7a1832;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    color: #4a1c40;
     font-size: 0.95rem;
-    padding: 8px 16px;
-    margin-top: 2rem;
+    line-height: 1.5;
+}
+
+.ve-entry > div:first-child {
+    flex: 1;
+}
+
+.ve-actions {
+    display: flex;
+    flex-direction: column; /* o row, si prefieres horizontal */
+    gap: 0.5rem;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.ve-actions button {
+    background-color: #7a1832;
+    color: white;
+    font-size: 0.9rem;
+    padding: 8px 12px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background 0.2s ease-in-out;
+    transition: background 0.2s ease;
 }
 
-.return-btn:hover {
-    background-color: #7a1832; /* Vino claro */
+.ve-entry strong {
+    font-size: 1.05rem;
+    color: #7a1832;
+}
+
+.ve-actions button:hover {
+    background-color: #4a1c40;
 }
