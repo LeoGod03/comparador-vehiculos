@@ -109,10 +109,9 @@ async function listVci() {
 }
 
 function showCreateForm(vehiculo = null) {
-    const form = document.getElementById('create-form');
-    form.style.display = "block";
+    const modal = document.getElementById('modal-form');
+    modal.style.display = "flex";
 
-    // Si viene un objeto vehículo, es una edición
     if (vehiculo) {
         document.getElementById('vci-id').value = vehiculo.vehiculo_id;
         document.getElementById('vci-marca').value = vehiculo.marca;
@@ -132,10 +131,12 @@ function showCreateForm(vehiculo = null) {
         document.getElementById('vci-nox').value = vehiculo.nox_mg_km;
         document.getElementById('vci-calificacion').value = vehiculo.calificacion;
     } else {
-        // Limpiar el formulario si es nuevo
-        document.getElementById('create-form').reset();
+        document.getElementById('modal-form').reset();
         document.getElementById('vci-id').value = "";
     }
 }
 
+function closeModal() {
+    document.getElementById('modal-form').style.display = "none";
+}
 document.addEventListener("DOMContentLoaded", listVci);
