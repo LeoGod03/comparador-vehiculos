@@ -84,7 +84,9 @@ async function listVci() {
     const listDiv = document.getElementById('vci-list');
     listDiv.innerHTML = "";
 
-    let { data: vehiculos, error } = await supabase.from('vista_vci_completa').select('*');
+    let { data: vehiculos, error } = await supabase
+        .from('vista_vci_completa')
+        .select('*');
 
     if (error) {
         console.error("🚨 Error al listar vehículos VCI:", error);
@@ -94,10 +96,13 @@ async function listVci() {
     vehiculos.forEach(vci => {
         let item = document.createElement("div");
         item.innerHTML = `
-            <div>
+            <div class="vci-details">
                 <strong>${vci.marca} ${vci.submarca} ${vci.modelo} - ${vci.version}</strong><br>
-                Transmisión: ${vci.transmision} | Combustible: ${vci.combustible} | Cilindros: ${vci.cilindros}<br>
-                Potencia: ${vci.potencia_hp} hp | Categoría: ${vci.categoria}
+                🔹 **Transmisión:** ${vci.transmision} | **Combustible:** ${vci.combustible} | **Cilindros:** ${vci.cilindros}<br>
+                🔹 **Potencia:** ${vci.potencia_hp} hp | **Tamaño:** ${vci.tamano} | **Categoría:** ${vci.categoria}<br>
+                🔹 **Rendimiento Ciudad:** ${vci.rendimiento_ciudad} km/l | **Carretera:** ${vci.rendimiento_carretera} km/l | **Combinado:** ${vci.rendimiento_combinado} km/l<br>
+                🔹 **CO₂:** ${vci.co2_g_km} g/km | **NOx:** ${vci.nox_mg_km} mg/km<br>
+                🔹 **Calificación:** ${vci.calificacion}
             </div>
             <div class="vci-actions">
                 <button onclick='showCreateForm(${JSON.stringify(vci)})'>Editar</button>
