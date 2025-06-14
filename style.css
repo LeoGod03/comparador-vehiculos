@@ -136,13 +136,11 @@ button:hover {
     background-color: #4a1c40;
 }
 #vci-list {
+    width: 90%;
     margin: 2rem auto;
-    padding: 1rem;
-    background: white;
+    padding: 1rem 1.5rem;
+    background-color: #f8f8f8;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    border: 2px solid #7a1832; /* Borde vino */
 }
 
 #vci-list div {
@@ -185,4 +183,52 @@ button:hover {
 .vci-actions {
     display: flex;
     gap: 0.5rem;
+}
+.vci-entry {
+    background-color: #fff;
+    border: 2px solid #7a1832; /* Borde vino */
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    color: #4a1c40;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.vci-entry strong {
+    font-size: 1.05rem;
+    color: #7a1832;
+}
+
+.vci-entry div:first-child {
+    flex: 1 1 75%;
+    margin-bottom: 0.5rem;
+}
+
+.vci-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex: 1 1 20%;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.vci-actions button {
+    background-color: #7a1832;
+    color: white;
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.vci-actions button:hover {
+    background-color: #4a1c40;
 }

@@ -57,30 +57,34 @@ async function listVci() {
     const listDiv = document.getElementById('vci-list');
     listDiv.innerHTML = "";
 
-    let { data: vehiculos, error } = await supabase.from('vista_vci_con_vehiculo').select('*');
+    let { data: vehiculos, error } = await supabase
+        .from('vista_vci_completa')
+        .select('*');
 
     if (error) {
-        console.error("🚨 Error al listar VCI:", error);
+        console.error("🚨 Error al listar vehículos VCI:", error);
         return;
     }
 
     vehiculos.forEach(vci => {
         let item = document.createElement("div");
         item.innerHTML = `
-        <span>${vci.marca} ${vci.submarca} (${vci.modelo}) - ${vci.version}</span>
-        <div class="vci-actions">
-            <button onclick="editVci(${vci.vehiculo_id})">Editar</button>
-            <button onclick="deleteVci(${vci.vehiculo_id})">Eliminar</button>
-        </div>`;
+            <div>
+                <strong>${vci.marca} ${vci.submarca} ${vci.modelo} - ${vci.version}</strong><br>
+                Transmisión: ${vci.transmision} | Combustible: ${vci.combustible} | Cilindros: ${vci.cilindros}<br>
+                Potencia: ${vci.potencia_hp} hp | Tamaño: ${vci.tamano} | Categoría: ${vci.categoria}<br>
+                Rendimiento Ciudad: ${vci.rendimiento_ciudad} km/l | Carretera: ${vci.rendimiento_carretera} km/l | Combinado: ${vci.rendimiento_combinado} km/l<br>
+                Rendimiento Ajustado: ${vci.rendimiento_ajustado} km/l<br>
+                CO₂: ${vci.co2_g_km} g/km | NOx: ${vci.nox_mg_km} mg/km<br>
+                Calificación: ${vci.calificacion}
+            </div>
+            <div class="vci-actions">
+                <button onclick="editVci(${vci.vehiculo_id})">Editar</button>
+                <button onclick="deleteVci(${vci.vehiculo_id})">Eliminar</button>
+            </div>
+        `;
+        item.classList.add("vci-entry");
         listDiv.appendChild(item);
     });
 }
-
-async function deleteVci(vehiculoId) {
-    await supabase.from('vehiculos_vci').delete().eq('vehiculo_id', vehiculoId);
-    await supabase.from('vehiculos').delete().eq('id', vehiculoId);
-    alert("❌ Vehículo VCI eliminado.");
-    listVci();
-}
-
 document.addEventListener("DOMContentLoaded", listVci);
