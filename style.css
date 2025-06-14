@@ -9,9 +9,33 @@ body {
 }
 
 h1 {
-    color: #7a1832; /* Vino profundo */
-    text-align: center;
+    font-family: "Times New Roman", serif;
+    font-size: 2rem;
     font-weight: bold;
+    color: #7a1832; /* Vino institucional */
+    text-align: center;
+    margin-bottom: 0.8rem;
+}
+
+h2 {
+    font-family: "Times New Roman", serif;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #4a1c40; /* Vino oscuro */
+    text-align: center;
+    margin-bottom: 0.6rem;
+    border-bottom: 2px solid #7a1832;
+    padding-bottom: 0.4rem;
+}
+
+.footer {
+    text-align: center;
+    font-size: 1rem;
+    color: #4a1c40;
+    background-color: #f8f8f8;
+    padding: 1rem;
+    margin-top: 2rem;
+    border-top: 2px solid #7a1832;
 }
 
 .comparator-container {
