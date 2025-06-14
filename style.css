@@ -363,3 +363,78 @@ button:hover {
 .return-btn:hover {
     background-color: #7a1832; /* Vino claro al pasar el cursor */
 }
+
+
+.ve-entry {
+    background-color: #fff;
+    border: 2px solid #7a1832; /* Borde institucional vino */
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    color: #4a1c40;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.ve-actions {
+    display: inline-flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.ve-actions button {
+    background-color: #7a1832; /* Vino */
+    color: white;
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.ve-actions button:hover {
+    background-color: #4a1c40; /* Vino oscuro */
+}
+
+#ve-list {
+    width: 90%;
+    margin: 2rem auto;
+    padding: 1rem 1.5rem;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+}
+
+#ve-list div {
+    padding: 0.8rem;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#ve-list div:last-child {
+    border-bottom: none; /* Evita línea extra al final */
+}
+
+.return-btn {
+    background-color: #4a1c40; /* Vino oscuro */
+    color: white;
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    margin-top: 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+}
+
+.return-btn:hover {
+    background-color: #7a1832; /* Vino claro */
+}
