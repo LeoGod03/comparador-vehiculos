@@ -10,7 +10,7 @@ console.log(" Supabase inicializado correctamente:", supabase);
 async function saveVci() {
     const vehiculoId = document.getElementById('vci-id').value;
     const vehiculoData = {
-        marca: document.getElementById('vci-marca').value,
+        marca: document.getElementById('vci-marca').value.toUpperCase(),
         submarca: document.getElementById('vci-submarca').value,
         modelo: document.getElementById('vci-modelo').value,
         version: document.getElementById('vci-version').value,
@@ -98,11 +98,11 @@ async function listVci() {
         item.innerHTML = `
             <div class="vci-details">
                 <strong>${vci.marca} ${vci.submarca} ${vci.modelo} - ${vci.version}</strong><br>
-                🔹 **Transmisión:** ${vci.transmision} | **Combustible:** ${vci.combustible} | **Cilindros:** ${vci.cilindros}<br>
-                🔹 **Potencia:** ${vci.potencia_hp} hp | **Tamaño:** ${vci.tamano} | **Categoría:** ${vci.categoria}<br>
-                🔹 **Rendimiento Ciudad:** ${vci.rendimiento_ciudad} km/l | **Carretera:** ${vci.rendimiento_carretera} km/l | **Combinado:** ${vci.rendimiento_combinado} km/l<br>
-                🔹 **CO₂:** ${vci.co2_g_km} g/km | **NOx:** ${vci.nox_mg_km} mg/km<br>
-                🔹 **Calificación:** ${vci.calificacion}
+                Transmisión: ${vci.transmision} | Combustible: ${vci.combustible} | Cilindros: ${vci.cilindros}<br>
+                Potencia: ${vci.potencia_hp} hp | Tamaño: ${vci.tamano} | Categoría: ${vci.categoria}<br>
+                Rendimiento Ciudad:** ${vci.rendimiento_ciudad} km/l | Carretera: ${vci.rendimiento_carretera} km/l | Combinado: ${vci.rendimiento_combinado} km/l<br>
+                CO₂: ${vci.co2_g_km} g/km | NOx: ${vci.nox_mg_km} mg/km<br>
+                Calificación: ${vci.calificacion}
             </div>
             <div class="vci-actions">
                 <button onclick='showCreateForm(${JSON.stringify(vci)})'>Editar</button>
