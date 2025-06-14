@@ -7,16 +7,42 @@ const supabase = createClient(
 
 console.log(" Supabase inicializado correctamente:", supabase);
 
-async function createVci() {
+async function saveVci() {
+    const vehiculoId = document.getElementById('vci-id').value;
+    const vehiculoData = {
+        marca: document.getElementById('vci-marca').value,
+        submarca: document.getElementById('vci-submarca').value,
+        modelo: document.getElementById('vci-modelo').value,
+        version: document.getElementById('vci-version').value,
+        tipo: 'VCI'
+    };
+
+    const vciData = {
+        transmision: document.getElementById('vci-transmision').value,
+        combustible: document.getElementById('vci-combustible').value,
+        cilindros: document.getElementById('vci-cilindros').value,
+        potencia_hp: parseInt(document.getElementById('vci-potencia').value),
+        tamano: document.getElementById('vci-tamano').value,
+        categoria: document.getElementById('vci-categoria').value,
+        rendimiento_ciudad: parseFloat(document.getElementById('vci-rendimiento-ciudad').value),
+        rendimiento_carretera: parseFloat(document.getElementById('vci-rendimiento-carretera').value),
+        rendimiento_combinado: parseFloat(document.getElementById('vci-rendimiento-combinado').value),
+        co2_g_km: parseFloat(document.getElementById('vci-co2').value),
+        nox_mg_km: parseFloat(document.getElementById('vci-nox').value),
+        calificacion: document.getElementById('vci-calificacion').value
+    };
+
+    if (vehiculoId) {
+        await updateVci(vehiculoId, vehiculoData, vciData);
+    } else {
+        await createVci(vehiculoData, vciData);
+    }
+}
+
+async function createVci(vehiculoData, vciData) {
     const { data: vehiculo, error: errorVehiculo } = await supabase
         .from('vehiculos')
-        .insert([{
-            marca: document.getElementById('vci-marca').value,
-            submarca: document.getElementById('vci-submarca').value,
-            modelo: document.getElementById('vci-modelo').value,
-            version: document.getElementById('vci-version').value,
-            tipo: 'VCI'
-        }])
+        .insert([vehiculoData])
         .select();
 
     if (errorVehiculo) {
@@ -24,25 +50,11 @@ async function createVci() {
         return;
     }
 
-    const vehiculoId = vehiculo[0].id;
+    vciData.vehiculo_id = vehiculo[0].id;
 
     const { error: errorVci } = await supabase
         .from('vehiculos_vci')
-        .insert([{
-            vehiculo_id: vehiculoId,
-            transmision: document.getElementById('vci-transmision').value,
-            combustible: document.getElementById('vci-combustible').value,
-            cilindros: document.getElementById('vci-cilindros').value,
-            potencia_hp: parseInt(document.getElementById('vci-potencia').value),
-            tamano: document.getElementById('vci-tamano').value,
-            categoria: document.getElementById('vci-categoria').value,
-            rendimiento_ciudad: parseFloat(document.getElementById('vci-rendimiento-ciudad').value),
-            rendimiento_carretera: parseFloat(document.getElementById('vci-rendimiento-carretera').value),
-            rendimiento_combinado: parseFloat(document.getElementById('vci-rendimiento-combinado').value),
-            co2_g_km: parseFloat(document.getElementById('vci-co2').value),
-            nox_mg_km: parseFloat(document.getElementById('vci-nox').value),
-            calificacion: document.getElementById('vci-calificacion').value
-        }]);
+        .insert([vciData]);
 
     if (errorVci) {
         console.error("🚨 Error al guardar en 'vehiculos_vci':", errorVci);
@@ -53,13 +65,26 @@ async function createVci() {
     listVci();
 }
 
+async function updateVci(vehiculoId, vehiculoData, vciData) {
+    await supabase
+        .from('vehiculos')
+        .update(vehiculoData)
+        .eq('id', vehiculoId);
+
+    await supabase
+        .from('vehiculos_vci')
+        .update(vciData)
+        .eq('vehiculo_id', vehiculoId);
+
+    alert("✅ Vehículo VCI actualizado correctamente.");
+    listVci();
+}
+
 async function listVci() {
     const listDiv = document.getElementById('vci-list');
     listDiv.innerHTML = "";
 
-    let { data: vehiculos, error } = await supabase
-        .from('vista_vci_completa')
-        .select('*');
+    let { data: vehiculos, error } = await supabase.from('vista_vci_completa').select('*');
 
     if (error) {
         console.error("🚨 Error al listar vehículos VCI:", error);
@@ -72,19 +97,45 @@ async function listVci() {
             <div>
                 <strong>${vci.marca} ${vci.submarca} ${vci.modelo} - ${vci.version}</strong><br>
                 Transmisión: ${vci.transmision} | Combustible: ${vci.combustible} | Cilindros: ${vci.cilindros}<br>
-                Potencia: ${vci.potencia_hp} hp | Tamaño: ${vci.tamano} | Categoría: ${vci.categoria}<br>
-                Rendimiento Ciudad: ${vci.rendimiento_ciudad} km/l | Carretera: ${vci.rendimiento_carretera} km/l | Combinado: ${vci.rendimiento_combinado} km/l<br>
-                Rendimiento Ajustado: ${vci.rendimiento_ajustado} km/l<br>
-                CO₂: ${vci.co2_g_km} g/km | NOx: ${vci.nox_mg_km} mg/km<br>
-                Calificación: ${vci.calificacion}
+                Potencia: ${vci.potencia_hp} hp | Categoría: ${vci.categoria}
             </div>
             <div class="vci-actions">
-                <button onclick="editVci(${vci.vehiculo_id})">Editar</button>
+                <button onclick='showCreateForm(${JSON.stringify(vci)})'>Editar</button>
                 <button onclick="deleteVci(${vci.vehiculo_id})">Eliminar</button>
-            </div>
-        `;
+            </div>`;
         item.classList.add("vci-entry");
         listDiv.appendChild(item);
     });
 }
+
+function showCreateForm(vehiculo = null) {
+    const form = document.getElementById('create-form');
+    form.style.display = "block";
+
+    // Si viene un objeto vehículo, es una edición
+    if (vehiculo) {
+        document.getElementById('vci-id').value = vehiculo.vehiculo_id;
+        document.getElementById('vci-marca').value = vehiculo.marca;
+        document.getElementById('vci-submarca').value = vehiculo.submarca;
+        document.getElementById('vci-modelo').value = vehiculo.modelo;
+        document.getElementById('vci-version').value = vehiculo.version;
+        document.getElementById('vci-transmision').value = vehiculo.transmision;
+        document.getElementById('vci-combustible').value = vehiculo.combustible;
+        document.getElementById('vci-cilindros').value = vehiculo.cilindros;
+        document.getElementById('vci-potencia').value = vehiculo.potencia_hp;
+        document.getElementById('vci-tamano').value = vehiculo.tamano;
+        document.getElementById('vci-categoria').value = vehiculo.categoria;
+        document.getElementById('vci-rendimiento-ciudad').value = vehiculo.rendimiento_ciudad;
+        document.getElementById('vci-rendimiento-carretera').value = vehiculo.rendimiento_carretera;
+        document.getElementById('vci-rendimiento-combinado').value = vehiculo.rendimiento_combinado;
+        document.getElementById('vci-co2').value = vehiculo.co2_g_km;
+        document.getElementById('vci-nox').value = vehiculo.nox_mg_km;
+        document.getElementById('vci-calificacion').value = vehiculo.calificacion;
+    } else {
+        // Limpiar el formulario si es nuevo
+        document.getElementById('create-form').reset();
+        document.getElementById('vci-id').value = "";
+    }
+}
+
 document.addEventListener("DOMContentLoaded", listVci);
