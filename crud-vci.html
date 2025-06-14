@@ -47,6 +47,19 @@
         </div>
     </div>
 
+    <!-- Modal de confirmación para eliminar -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeConfirmModal()">&times;</span>
+            <h2>Confirmar eliminación</h2>
+            <p>¿Estás seguro de que quieres eliminar este vehículo?</p>
+            <input type="hidden" id="delete-id">
+            <div class="modal-actions">
+                <button class="confirm-btn" onclick="confirmDelete()">Eliminar</button>
+                <button class="cancel-btn" onclick="closeConfirmModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
 
     <h2>Lista de Vehículos VCI</h2>
     <div id="vci-list"></div>

@@ -111,7 +111,7 @@ async function listVci() {
             </div>
             <div class="vci-actions">
                 <button onclick='showCreateForm(${JSON.stringify(vci)})'>Editar</button>
-                <button onclick="deleteVci(${vci.vehiculo_id})">Eliminar</button>
+                <button onclick="openDeleteModal(${vci.vehiculo_id})">Eliminar</button>
             </div>`;
         item.classList.add("vci-entry");
         listDiv.appendChild(item);
@@ -158,5 +158,44 @@ function showMessageModal(message) {
 
 function closeMessageModal() {
     document.getElementById("message-modal").style.display = "none";
+}
+
+function openDeleteModal(vehiculoId) {
+    document.getElementById("delete-id").value = vehiculoId;
+    document.getElementById("confirm-modal").style.display = "flex";
+}
+
+function closeConfirmModal() {
+    document.getElementById("confirm-modal").style.display = "none";
+}
+
+async function confirmDelete() {
+    const vehiculoId = document.getElementById("delete-id").value;
+
+    const { error: errorVci } = await supabase
+        .from('vehiculos_vci')
+        .delete()
+        .eq('vehiculo_id', vehiculoId);
+
+    if (errorVci) {
+        console.error("Error al eliminar en 'vehiculos_vci':", errorVci);
+        showMessageModal("Error al eliminar el vehículo.");
+        return;
+    }
+
+    const { error: errorVehiculo } = await supabase
+        .from('vehiculos')
+        .delete()
+        .eq('id', vehiculoId);
+
+    if (errorVehiculo) {
+        console.error("Error al eliminar en 'vehiculos':", errorVehiculo);
+        showMessageModal("Error al eliminar los datos del vehículo.");
+        return;
+    }
+
+    showMessageModal("Vehículo eliminado correctamente.");
+    closeConfirmModal();
+    listVci();
 }
 document.addEventListener("DOMContentLoaded", listVci);
