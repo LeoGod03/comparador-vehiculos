@@ -180,18 +180,10 @@ button:hover {
     flex-wrap: wrap;
 }
 
-.vci-actions {
-    display: inline-flex;
-    flex-wrap: nowrap;
-    gap: 0.5rem;
-    justify-content: flex-end;
-    align-items: center;
-}
 
 .vci-entry {
-    display: flex;
     background-color: #fff;
-    border: 2px solid #7a1832; /* Borde vino */
+    border: 2px solid #7a1832;
     border-radius: 8px;
     margin-bottom: 1.5rem;
     padding: 1rem 1.5rem;
@@ -199,28 +191,23 @@ button:hover {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* 👈 esto es clave */
+    gap: 1rem;
     color: #4a1c40;
     font-size: 0.95rem;
     line-height: 1.5;
 }
 
-.vci-entry strong {
-    font-size: 1.05rem;
-    color: #7a1832;
-}
-
-.vci-entry div:first-child {
-    flex: 1 1 75%;
-    margin-bottom: 0.5rem;
+.vci-entry > div:first-child {
+    flex: 1;
 }
 
 .vci-actions {
     display: flex;
+    flex-direction: column; /* o row, si prefieres horizontal */
     gap: 0.5rem;
-    flex: 1 1 20%;
-    justify-content: flex-end;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-end;
 }
 
 .vci-actions button {
@@ -234,6 +221,10 @@ button:hover {
     transition: background 0.2s ease;
 }
 
+.vci-entry strong {
+    font-size: 1.05rem;
+    color: #7a1832;
+}
 .vci-actions button:hover {
     background-color: #4a1c40;
 }
