@@ -515,7 +515,6 @@ async function fetchVeDetails(brand, subbrand, model) {
     return vehiculo;
 }
 
-
 // Función para mostrar la comparación
 async function showComparison() {
     if (!selectedVci || !selectedVe) return;
@@ -611,4 +610,9 @@ async function calculateTotals() {
 
     document.getElementById('vci-total-emissions').textContent = vciTotalEmissions.toFixed(2) + ' kgCO₂';
     document.getElementById('ve-total-emissions').textContent = veTotalEmissions.toFixed(2) + ' kgCO₂';
+}
+
+function navigateTo(page) {
+    history.pushState(null, "", "/" + page);
+    location.href = page + ".html";
 }
