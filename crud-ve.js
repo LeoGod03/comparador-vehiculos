@@ -41,7 +41,7 @@ async function createVe(vehiculoData, veData) {
         .select();
 
     if (errorVehiculo) {
-        showMessageModal("❌ Error al guardar el vehículo.");
+        showMessageModal("Error al guardar el vehículo.");
         return;
     }
 
@@ -52,11 +52,11 @@ async function createVe(vehiculoData, veData) {
         .insert([veData]);
 
     if (errorVe) {
-        showMessageModal("❌ Error al guardar los datos del VE.");
+        showMessageModal("Error al guardar los datos del VE.");
         return;
     }
 
-    showMessageModal("✅ Vehículo VE agregado correctamente.");
+    showMessageModal("Vehículo VE agregado correctamente.");
     listVe();
 }
 
@@ -64,7 +64,7 @@ async function updateVe(vehiculoId, vehiculoData, veData) {
     await supabase.from('vehiculos').update(vehiculoData).eq('id', vehiculoId);
     await supabase.from('vehiculos_ev').update(veData).eq('vehiculo_id', vehiculoId);
 
-    showMessageModal("✅ Vehículo VE actualizado correctamente.");
+    showMessageModal("Vehículo VE actualizado correctamente.");
     listVe();
 }
 
@@ -75,7 +75,7 @@ async function listVe() {
     let { data: vehiculos, error } = await supabase.from('vista_ve_completa').select('*');
 
     if (error) {
-        showMessageModal("❌ Error al listar vehículos VE.");
+        showMessageModal("Error al listar vehículos VE.");
         return;
     }
 
