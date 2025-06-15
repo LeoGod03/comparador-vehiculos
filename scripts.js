@@ -25,11 +25,11 @@ async function populateBrands() {
         .select('marca, tipo');  // Obtenemos marcas y tipo
 
     if (error) {
-        console.error("🚨 Error al obtener marcas:", error);
+        console.error("Error al obtener marcas:", error);
         return;
     }
 
-    console.log("🔍 Datos obtenidos:", data); // Confirmar datos en la consola
+    console.log("Datos obtenidos:", data); // Confirmar datos en la consola
 
     const vciBrandSelect = document.getElementById("vci-brand");
     const veBrandSelect = document.getElementById("ve-brand");
@@ -72,10 +72,9 @@ async function populateBrands() {
         veBrandSelect.appendChild(optionVE);
     });
 
-    console.log("✅ Marcas agregadas sin repetir.");
+    console.log("Marcas agregadas sin repetir.");
 }
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("⚡ DOM cargado, ejecutando carga de marcas...");
 
     // Llenar marcas en los selectores de VCI y VE
     populateBrands();
@@ -113,11 +112,11 @@ async function updateVciModels() {
         .eq('tipo', 'VCI');  // Filtramos solo vehículos de combustión interna
 
     if (error) {
-        console.error('🚨 Error al obtener modelos:', error);
+        console.error('Error al obtener modelos:', error);
         return;
     }
 
-    console.log("🔍 Modelos obtenidos:", modelos); // Confirmar datos en consola
+    console.log("Modelos obtenidos:", modelos); // Confirmar datos en consola
 
     // Crear un Set para evitar duplicados
     const modelosUnicos = new Set(modelos.map(({ modelo }) => modelo));
@@ -130,7 +129,7 @@ async function updateVciModels() {
         modelSelect.appendChild(option);
     });
 
-    console.log("✅ Modelos únicos agregados al selector.");
+    console.log("Modelos únicos agregados al selector.");
 }
 
 async function showVciDetails() {
@@ -209,11 +208,11 @@ async function updateVeSubbrands() {
         .eq('tipo', 'VE');  // Filtrar vehículos eléctricos
 
     if (error) {
-        console.error('🚨 Error al obtener submarcas:', error);
+        console.error('Error al obtener submarcas:', error);
         return;
     }
 
-    console.log("🔍 Submarcas obtenidas:", submarcas); // Confirmar datos en consola
+    console.log("Submarcas obtenidas:", submarcas); // Confirmar datos en consola
 
     // Filtrar y llenar el selector con valores únicos
     const uniqueSubbrands = [...new Set(submarcas.map(item => item.submarca))];
@@ -243,10 +242,10 @@ async function updateVciSubbrands() {
         .eq('marca', brandSelect.value.toUpperCase())
         .eq('tipo', 'VCI');
 
-    console.log("🔍 Datos recibidos de Supabase:", submarcas); // Ver qué está recibiendo realmente
+    console.log("Datos recibidos de Supabase:", submarcas); // Ver qué está recibiendo realmente
 
     if (error) {
-        console.error("🚨 Error al obtener submarcas:", error);
+        console.error("Error al obtener submarcas:", error);
         return;
     }
     // Filtrar y llenar el selector con valores únicos
@@ -278,11 +277,11 @@ async function updateVeModels() {
         .eq('tipo', 'VE');  // Filtrar vehículos eléctricos
 
     if (error) {
-        console.error('🚨 Error al obtener modelos:', error);
+        console.error('Error al obtener modelos:', error);
         return;
     }
 
-    console.log("🔍 Modelos obtenidos:", modelos); // Confirmar datos en consola
+    console.log("Modelos obtenidos:", modelos); // Confirmar datos en consola
 
     // Crear un Set para evitar duplicados
     const modelosUnicos = new Set(modelos.map(({ modelo }) => modelo));
@@ -318,11 +317,11 @@ async function showVeDetails() {
         .single();
 
     if (error || !vehiculo) {
-        console.error('🚨 Error al obtener detalles:', error);
+        console.error('Error al obtener detalles:', error);
         return;
     }
 
-    console.log("🔍 Detalles obtenidos:", vehiculo);
+    console.log("Detalles obtenidos:", vehiculo);
 
     // Mostrar detalles en la interfaz
     const detailsDiv = document.getElementById('ve-details');
@@ -358,11 +357,11 @@ async function getVeVehicles() {
         .eq('modelo', modelo);
 
     if (error) {
-        console.error("🚨 Error al obtener vehículos VE:", error);
+        console.error("Error al obtener vehículos VE:", error);
         return [];
     }
 
-    console.log("🔍 Vehículos VE obtenidos:", vehiculos);
+    console.log("Vehículos VE obtenidos:", vehiculos);
     return vehiculos;
 }
 
@@ -370,7 +369,7 @@ async function showVeOptions() {
     const selectionDiv = document.getElementById('ve-selection');
 
     if (!selectionDiv) {
-        console.error("🚨 No se encontró el elemento 've-selection' en el DOM.");
+        console.error("No se encontró el elemento 've-selection' en el DOM.");
         return;
     }
 
@@ -419,11 +418,11 @@ async function getVciVehicles() {
         .eq('modelo', modelo);
 
     if (error) {
-        console.error("🚨 Error al obtener vehículos VCI:", error);
+        console.error("Error al obtener vehículos VCI:", error);
         return [];
     }
 
-    console.log("🔍 Vehículos VCI obtenidos:", vehiculos);
+    console.log("Vehículos VCI obtenidos:", vehiculos);
     return vehiculos;
 }
 
@@ -431,7 +430,7 @@ async function showVciOptions() {
     const selectionDiv = document.getElementById('vci-selection');
 
     if (!selectionDiv) {
-        console.error("🚨 No se encontró el elemento 'vehicle-selection' en el DOM.");
+        console.error("No se encontró el elemento 'vehicle-selection' en el DOM.");
         return;
     }
 
