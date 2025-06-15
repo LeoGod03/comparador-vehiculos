@@ -612,7 +612,3 @@ async function calculateTotals() {
     document.getElementById('ve-total-emissions').textContent = veTotalEmissions.toFixed(2) + ' kgCO₂';
 }
 
-function navigateTo(page) {
-    history.pushState(null, "", "/" + page);
-    location.href = page + ".html";
-}
