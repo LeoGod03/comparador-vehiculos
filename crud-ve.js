@@ -12,9 +12,9 @@ async function saveVe() {
     const vehiculoId = document.getElementById('ve-id').value;
     const vehiculoData = {
         marca: document.getElementById('ve-marca').value.toUpperCase(),
-        submarca: document.getElementById('ve-submarca').value.toUpperCase(),
-        modelo: document.getElementById('ve-modelo').value.toUpperCase(),
-        version: document.getElementById('ve-version').value.toUpperCase(),
+        submarca: document.getElementById('ve-submarca').value,
+        modelo: document.getElementById('ve-modelo').value,
+        version: document.getElementById('ve-version').value,
         tipo: 'VE'
     };
 
@@ -95,6 +95,42 @@ async function listVe() {
         item.classList.add("ve-entry");
         listDiv.appendChild(item);
     });
+}
+
+function showCreateForm(vehiculo = null) {
+    const modal = document.getElementById('modal-form');
+    modal.style.display = "flex";
+
+    if (vehiculo) {
+        document.getElementById('ve-id').value = vehiculo.vehiculo_id;
+        document.getElementById('ve-marca').value = vehiculo.marca;
+        document.getElementById('ve-submarca').value = vehiculo.submarca;
+        document.getElementById('ve-modelo').value = vehiculo.modelo;
+        document.getElementById('ve-version').value = vehiculo.version;
+        document.getElementById('ve-potencia').value = vehiculo.potencia_hp;
+        document.getElementById('ve-bateria').value = vehiculo.capacidad_bateria_kwh;
+        document.getElementById('ve-autonomia').value = vehiculo.autonomia_km;
+        document.getElementById('ve-rendimiento').value = vehiculo.rendimiento_km_kwh;
+        document.getElementById('ve-pasajeros').value = vehiculo.pasajeros;
+        document.getElementById('ve-caracteristicas').value = vehiculo.caracteristicas;
+    } else {
+        // Limpiar el formulario si es un nuevo vehículo
+        document.getElementById('modal-form').reset();
+        document.getElementById('ve-id').value = "";
+    }
+}
+
+function closeModal() {
+    document.getElementById('modal-form').style.display = "none";
+}
+
+function showMessageModal(message) {
+    document.getElementById("message-text").innerText = message;
+    document.getElementById("message-modal").style.display = "flex";
+}
+
+function closeMessageModal() {
+    document.getElementById("message-modal").style.display = "none";
 }
 
 document.addEventListener("DOMContentLoaded", listVe);
