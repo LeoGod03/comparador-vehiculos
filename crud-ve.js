@@ -146,7 +146,7 @@ async function confirmDelete() {
     const vehiculoId = document.getElementById("delete-id").value;
 
     const { error: errorVci } = await supabase
-        .from('vehiculos_ve')
+        .from('vehiculos_ev')
         .delete()
         .eq('vehiculo_id', vehiculoId);
 
