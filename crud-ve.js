@@ -26,7 +26,7 @@ async function saveVe() {
         pasajeros: parseInt(document.getElementById('ve-pasajeros').value),
         caracteristicas: document.getElementById('ve-caracteristicas').value
     };
-
+    closeModal();
     if (vehiculoId) {
         await updateVe(vehiculoId, vehiculoData, veData);
     } else {
@@ -131,6 +131,45 @@ function showMessageModal(message) {
 
 function closeMessageModal() {
     document.getElementById("message-modal").style.display = "none";
+}
+
+function openDeleteModal(vehiculoId) {
+    document.getElementById("delete-id").value = vehiculoId;
+    document.getElementById("confirm-modal").style.display = "flex";
+}
+
+function closeConfirmModal() {
+    document.getElementById("confirm-modal").style.display = "none";
+}
+
+async function confirmDelete() {
+    const vehiculoId = document.getElementById("delete-id").value;
+
+    const { error: errorVci } = await supabase
+        .from('vehiculos_ve')
+        .delete()
+        .eq('vehiculo_id', vehiculoId);
+
+    if (errorVci) {
+        console.error("Error al eliminar en 'vehiculos_ve':", errorVci);
+        showMessageModal("Error al eliminar el vehículo.");
+        return;
+    }
+
+    const { error: errorVehiculo } = await supabase
+        .from('vehiculos')
+        .delete()
+        .eq('id', vehiculoId);
+
+    if (errorVehiculo) {
+        console.error("Error al eliminar en 'vehiculos':", errorVehiculo);
+        showMessageModal("Error al eliminar los datos del vehículo.");
+        return;
+    }
+
+    showMessageModal("Vehículo eliminado correctamente.");
+    closeConfirmModal();
+    listVe();
 }
 
 document.addEventListener("DOMContentLoaded", listVe);
