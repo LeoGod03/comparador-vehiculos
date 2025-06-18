@@ -541,8 +541,8 @@ async function showComparison() {
     const vciCostPerKm = (1 / vciRendimiento) * gasolinaPrecio;
     const veCostPerKm = veEnergyConsumption * electricidadPrecio;
 
-    document.getElementById('vci-cost-per-km').textContent = '$' + vciCostPerKm.toFixed(2) + ' MXN/lt';
-    document.getElementById('ve-cost-per-km').textContent = '$' + veCostPerKm.toFixed(2) + ' MXN/kWh';
+    document.getElementById('vci-cost').textContent = '$' + vciCostPerKm.toFixed(2) + ' MXN/lt';
+    document.getElementById('ve-cost').textContent = '$' + veCostPerKm.toFixed(2) + ' MXN/kWh';
 
             // Calcular emisiones de CO2
     const vciEmissions = (1 / vciRendimiento) * gasolinaFactorEmision;
